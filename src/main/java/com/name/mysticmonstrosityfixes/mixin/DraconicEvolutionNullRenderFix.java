@@ -16,7 +16,8 @@ public class DraconicEvolutionNullRenderFix {
     @Inject(at = @At("HEAD"), method = "renderCore", cancellable = true, remap = false)
     private static void nullCheck(codechicken.lib.vec.Matrix4 mat, codechicken.lib.render.CCRenderState ccrs, float animation, double animState, float intensity, float shieldPower, float partialTicks, MultiBufferSource getter, CallbackInfo ci) {
         if (model == null) {
-            ci.cancel();
+            Map<String, CCModel> map = new OBJParser(new ResourceLocation(DraconicEvolution.MODID, "models/block/reactor/reactor_core.obj")).quads().ignoreMtl().parse();
+            model = CCModel.combine(map.values());
         }
     }
 }
