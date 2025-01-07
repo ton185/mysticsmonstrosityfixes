@@ -6,7 +6,8 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "DiamethystArrowNoTabNameLogger",
-    "DraconicEvolutionNullRenderFix"
+    "DraconicEvolutionNullRenderFix",
+    "SupplementariesNullRenderFix"
   ],
   "client": [
   ],
