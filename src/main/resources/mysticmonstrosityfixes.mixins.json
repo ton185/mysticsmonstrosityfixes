@@ -6,10 +6,10 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "DiamethystArrowNoTabNameLogger",
-    "SoLCarrotFoodsNullFix",
     "SupplementariesNullRenderFix"
   ],
   "client": [
+    "SoLCarrotFoodsNullFix"
   ],
   "injectors": {
     "defaultRequire": 1
