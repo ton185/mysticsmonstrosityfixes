@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mixin(FoodItems.class)
-public abstract class SoLCarrotFoodsNullFix {
+public class SoLCarrotFoodsNullFix {
     @Shadow
     private static List<Item> foodsBeforeBlacklist;
 
