@@ -2,11 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.name.mysticmonstrosityfixes.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "DiamethystArrowNoTabNameLogger",
-    "DraconicEvolutionNullRenderFix",
+    "SoLCarrotFoodsNullFix",
     "SupplementariesNullRenderFix"
   ],
   "client": [
