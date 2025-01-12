@@ -20,7 +20,7 @@ public class SoLCarrotFoodsNullFix {
     private static List<Item> foodsBeforeBlacklist;
 
     @Inject(at = @At("HEAD"), method = "applyBlacklist", remap = false)
-    private static void nullFix(CallbackInfo ci) {
+    private static void nullCheck(CallbackInfo ci) {
         if (foodsBeforeBlacklist == null) {
             foodsBeforeBlacklist = ForgeRegistries.ITEMS.getValues().stream().filter(Item::isEdible).sorted(Comparator.comparing((food) -> I18n.get(food.getDescriptionId() + ".name", new Object[0]))).collect(Collectors.toList());
         }

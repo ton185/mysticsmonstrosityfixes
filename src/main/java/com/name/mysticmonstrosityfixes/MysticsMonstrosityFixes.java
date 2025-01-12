@@ -37,7 +37,4 @@ public class MysticsMonstrosityFixes {
     public static final String MODID = "mysticmonstrosityfixes";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-
-    public MysticsMonstrosityFixes() {
-    }
 }

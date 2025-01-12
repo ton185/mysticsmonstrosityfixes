@@ -164,9 +164,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     implementation fg.deobf("curse.maven:codechicken-lib-1-8-242818:5753868")
-    implementation fg.deobf("curse.maven:draconic-evolution-223565:5940881")
     implementation fg.deobf("curse.maven:supplementaries-412082:5948497")
     implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
+    implementation fg.deobf("curse.maven:dynamic-asset-generator-577096:5008421")
     implementation(urlFile("https://mediafilez.forgecdn.net/files/5151/727/diamethyst_arrows-1.1.4-1.20.1.jar", "diamethystarrows"))
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
