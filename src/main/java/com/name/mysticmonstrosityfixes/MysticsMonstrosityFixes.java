@@ -2,6 +2,8 @@ package com.name.mysticmonstrosityfixes;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -37,4 +40,17 @@ public class MysticsMonstrosityFixes {
     public static final String MODID = "mysticmonstrosityfixes";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    public MysticsMonstrosityFixes() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void onScreenEventPre(ScreenEvent.Init.Pre event) {
+        Screen screen = event.getScreen();
+        Minecraft minecraft = screen.getMinecraft();
+        if (screen instanceof AbstractContainerScreen && minecraft != null && minecraft.player != null) {
+            LOGGER.warn("MysticJeiDebug: Screen opened before JEI start: {}, class name: {}", screen, screen.getClass().getName());
+        }
+    }
 }
