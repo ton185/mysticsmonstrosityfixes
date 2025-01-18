@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 @Mixin(PacketPlayerStats.class)
 public class JITLDeathCrashFix {
     @Inject(at = @At("HEAD"), cancellable = true, remap = false, method = "handle")
-    public void handle(Supplier<NetworkEvent.Context> ctx, CallbackInfo ci) {
+    public void nullFix(Supplier<NetworkEvent.Context> ctx, CallbackInfo ci) {
         if (Minecraft.getInstance().player != null && !Minecraft.getInstance().player.getCapability(PlayerStatsProvider.PLAYER_STATS).isPresent()) {
             ctx.get().setPacketHandled(true);
             ci.cancel();

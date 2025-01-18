@@ -7,6 +7,7 @@
   "mixins": [
     "DiamethystArrowNoTabNameLogger",
     "DynamicAssetGeneratorNullFix",
+    "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
     "JITLOfflineCrashFix",
     "SupplementariesNullRenderFix"
