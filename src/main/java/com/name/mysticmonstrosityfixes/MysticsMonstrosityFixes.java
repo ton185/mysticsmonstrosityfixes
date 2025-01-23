@@ -42,15 +42,6 @@ public class MysticsMonstrosityFixes {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public MysticsMonstrosityFixes() {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @SubscribeEvent
-    public void onScreenEventPre(ScreenEvent.Init.Pre event) {
-        Screen screen = event.getScreen();
-        Minecraft minecraft = screen.getMinecraft();
-        if (screen instanceof AbstractContainerScreen && minecraft != null && minecraft.player != null) {
-            LOGGER.warn("MysticJeiDebug: Screen opened before JEI start: {}, class name: {}", screen, screen.getClass().getName());
-        }
+        //MinecraftForge.EVENT_BUS.register(this);
     }
 }
