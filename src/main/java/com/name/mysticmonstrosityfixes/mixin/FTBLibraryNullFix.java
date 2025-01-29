@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @Mixin(JEIIntegration.class)
 public class FTBLibraryNullFix {
-    @Shadow
+    @Shadow(remap = false)
     public static IJeiRuntime runtime;
 
     @Inject(method = "getClickableIngredientUnderMouse", at = @At("HEAD"), cancellable = true, remap = false)
