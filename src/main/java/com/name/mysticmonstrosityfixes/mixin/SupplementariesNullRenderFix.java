@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 @Mixin(BookPileBlockTileRenderer.class)
 public class SupplementariesNullRenderFix {
-    @Shadow private static ModelBlockRenderer renderer;
+    @Shadow(remap = false) private static ModelBlockRenderer renderer;
 
     @Inject(at = @At("HEAD"), method = "renderBook(Lcom/mojang/blaze3d/vertex/PoseStack;Ljava/util/function/Function;IILnet/mehvahdjukaar/supplementaries/common/block/tiles/BookPileBlockTile$VisualBook;FF)V", remap = false)
     private static void nullCheck(PoseStack poseStack, Function<BookPileBlockTile.VisualBook, VertexConsumer> vertexBuilder, int light, int overlay, BookPileBlockTile.VisualBook b, float xRot, float zRot, CallbackInfo ci) {
