@@ -27,7 +27,7 @@ public class FTBLibraryNullFix {
     @Shadow
     public static IJeiRuntime runtime;
 
-    @Inject(method = "getClickableIngredientUnderMouse", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getClickableIngredientUnderMouse", at = @At("HEAD"), cancellable = true, remap = false)
     public void nullFix(double mouseX, double mouseY, CallbackInfoReturnable<Optional<IClickableIngredient<?>>> cir) {
         cir.cancel();
         Screen currentScreen = Minecraft.getInstance().screen;
