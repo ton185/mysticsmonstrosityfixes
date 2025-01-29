@@ -6,6 +6,7 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
+    "FTBLibraryNullFix",
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
     "JITLOfflineCrashFix",
