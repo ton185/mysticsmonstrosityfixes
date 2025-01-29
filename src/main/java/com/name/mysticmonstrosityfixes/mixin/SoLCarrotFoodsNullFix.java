@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Mixin(FoodItems.class)
 public class SoLCarrotFoodsNullFix {
-    @Shadow
+    @Shadow(remap = false)
     private static List<Item> foodsBeforeBlacklist;
 
     @Inject(at = @At("HEAD"), method = "applyBlacklist", remap = false)
