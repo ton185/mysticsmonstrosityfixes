@@ -171,6 +171,7 @@ dependencies {
     implementation fg.deobf("curse.maven:journey-into-the-light-mod-354673:5826323")
     implementation fg.deobf("curse.maven:blood-magic-224791:5290993")
     implementation fg.deobf("curse.maven:curios-309927:6058834")
+    implementation fg.deobf("curse.maven:mo-shiz-mod-62536:5587177")
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
