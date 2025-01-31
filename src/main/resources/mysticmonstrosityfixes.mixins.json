@@ -6,14 +6,14 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
-    "FTBLibraryNullFix",
-    "JITLClientEssenceNullFix",
-    "JITLDeathCrashFix",
-    "JITLOfflineCrashFix",
-    "SupplementariesNullRenderFix"
+    "JITLOfflineCrashFix"
   ],
   "client": [
-    "SoLCarrotFoodsNullFix"
+    "SoLCarrotFoodsNullFix",
+    "JITLClientEssenceNullFix",
+    "JITLDeathCrashFix",
+    "SupplementariesNullRenderFix",
+    "FTBLibraryNullFix"
   ],
   "injectors": {
     "defaultRequire": 1
