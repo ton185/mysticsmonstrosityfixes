@@ -6,7 +6,8 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
-    "JITLOfflineCrashFix"
+    "JITLOfflineCrashFix",
+    "InventoryPetsNbtNullFix"
   ],
   "client": [
     "SoLCarrotFoodsNullFix",
