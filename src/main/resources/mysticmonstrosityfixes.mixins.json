@@ -6,15 +6,16 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
+    "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
-    "InventoryPetsNbtNullFix"
+    "KryptonReforgedVarIntFix"
   ],
   "client": [
-    "SoLCarrotFoodsNullFix",
+    "FTBLibraryNullFix",
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
-    "SupplementariesNullRenderFix",
-    "FTBLibraryNullFix"
+    "SoLCarrotFoodsNullFix",
+    "SupplementariesNullRenderFix"
   ],
   "injectors": {
     "defaultRequire": 1
