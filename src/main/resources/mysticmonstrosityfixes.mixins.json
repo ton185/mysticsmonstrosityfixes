@@ -8,7 +8,8 @@
     "BloodMagicNullCapabilityFix",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
-    "KryptonReforgedVarIntFix"
+    "KryptonReforgedVarIntFix",
+    "SpreadPlayersCommandMixin"
   ],
   "client": [
     "FTBLibraryNullFix",
