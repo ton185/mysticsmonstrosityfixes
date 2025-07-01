@@ -166,7 +166,7 @@ dependencies {
     implementation fg.deobf("curse.maven:async-jei-just-enough-item-1180017:6090110")
     implementation fg.deobf("curse.maven:ftb-library-forge-404465:6016763")
     implementation fg.deobf("curse.maven:codechicken-lib-1-8-242818:5753868")
-    implementation fg.deobf("curse.maven:supplementaries-412082:5948497")
+    implementation fg.deobf("curse.maven:supplementaries-412082:6713838")
     implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
     implementation fg.deobf("curse.maven:journey-into-the-light-mod-354673:5826323")
     implementation fg.deobf("curse.maven:blood-magic-224791:5290993")
