@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.mystic.mysticsmonstrosityfixes.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "SynchedEntityDataBuilderMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
