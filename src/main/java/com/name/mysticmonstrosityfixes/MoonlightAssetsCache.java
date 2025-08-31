@@ -16,6 +16,9 @@ import java.util.function.BiConsumer;
 public final class MoonlightAssetsCache {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path ROOT = Paths.get(".cache", "moonlight-assets");
+    private static final Set<Path> CREATED_DIRS = java.util.concurrent.ConcurrentHashMap.newKeySet();
+    private static final int IO_BUFFER = 64 * 1024;
+    private static final int PARALLELISM = Math.max(1, Math.min(4, Runtime.getRuntime().availableProcessors()));
     private static final Map<ResourceLocation, byte[]> STAGED = new ConcurrentHashMap<>();
     private static Path activeDir;
     private static Manifest manifest;
@@ -39,33 +42,79 @@ public final class MoonlightAssetsCache {
 
     public static boolean tryWarmStart(BiConsumer<ResourceLocation, byte[]> sink) {
         if (activeDir == null) return false;
-        Path m = activeDir.resolve("manifest.json");
-        if (!Files.exists(m)) return false;
+
+        final Path manifestPath = activeDir.resolve("manifest.json");
+        if (!Files.exists(manifestPath)) return false;
+
         try {
-            Manifest onDisk = GSON.fromJson(Files.readString(m), Manifest.class);
+            final Manifest onDisk = GSON.fromJson(Files.readString(manifestPath), Manifest.class);
             if (!Objects.equals(onDisk.mc, manifest.mc)
                     || !Objects.equals(onDisk.moonlight, manifest.moonlight)
                     || !Objects.equals(onDisk.configHash, manifest.configHash)
-                    || !Objects.equals(onDisk.mods, manifest.mods)) return false;
+                    || !Objects.equals(onDisk.mods, manifest.mods)) {
+                return false;
+            }
 
-            Path root = activeDir.resolve("assets");
+            final Path root = activeDir.resolve("assets");
             if (!Files.isDirectory(root)) return false;
 
-            Files.walk(root).forEach(p -> {
-                if (!Files.isRegularFile(p)) return;
-                Path rel = root.relativize(p);
-                String ns = rel.getName(0).toString();
-                String path = rel.subpath(1, rel.getNameCount()).toString().replace('\\','/');
-                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ns, path);
-                try {
-                    byte[] bytes = Files.readAllBytes(p);
-                    String want = onDisk.sha1.get(ns + ":" + path);
-                    if (want != null && want.equals(sha1(bytes))) {
+            if (onDisk.sha1 == null || onDisk.sha1.isEmpty()) return false;
+
+            final var pool = java.util.concurrent.Executors.newFixedThreadPool(
+                    PARALLELISM, r -> { var t = new Thread(r, "mmfixes-warmstart"); t.setDaemon(true); return t; });
+
+            final var submitted = new java.util.concurrent.atomic.AtomicInteger(0);
+            final var hadAny = new java.util.concurrent.atomic.AtomicBoolean(false);
+
+            for (var entry : onDisk.sha1.entrySet()) {
+                final String key = entry.getKey(); // ns:path
+                final int colon = key.indexOf(':');
+                if (colon <= 0 || colon == key.length() - 1) continue;
+                final String ns = key.substring(0, colon);
+                final String path = key.substring(colon + 1);
+
+                final Path p = root.resolve(ns).resolve(path);
+
+                if (!Files.exists(p)) continue;
+
+                submitted.incrementAndGet();
+                pool.execute(() -> {
+                    try {
+                        long sizeL = Files.size(p);
+                        if (sizeL <= 0 || sizeL > Integer.MAX_VALUE) return; // guard
+                        int size = (int) sizeL;
+
+                        byte[] bytes;
+                        try (var in = Files.newInputStream(p, StandardOpenOption.READ)) {
+                            bytes = in.readNBytes(size);
+                            if (bytes.length != size) return;
+                        }
+
+                        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ns, path);
                         sink.accept(id, bytes);
+                        hadAny.set(true);
+                    } catch (Throwable ignored) {
                     }
-                } catch (IOException ignored) {}
-            });
-            return true;
+                });
+            }
+
+            if (submitted.get() == 0) {
+                pool.shutdownNow();
+                return false;
+            }
+
+            pool.shutdown();
+            try {
+                if (!pool.awaitTermination(5, java.util.concurrent.TimeUnit.MINUTES)) {
+                    pool.shutdownNow();
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                pool.shutdownNow();
+            }
+
+            return hadAny.get();
+
         } catch (Exception e) {
             return false;
         }
@@ -77,24 +126,111 @@ public final class MoonlightAssetsCache {
 
     public static void persist() {
         if (activeDir == null || manifest == null) return;
-        Path root = activeDir.resolve("assets");
+
+        if (STAGED.isEmpty()) return;
+
+        final Path root = activeDir.resolve("assets");
+
+        final java.util.List<java.util.Map.Entry<ResourceLocation, byte[]>> work =
+                new java.util.ArrayList<>(STAGED.entrySet());
+        STAGED.clear();
+
+        final java.util.concurrent.ExecutorService pool =
+                java.util.concurrent.Executors.newFixedThreadPool(PARALLELISM, r -> {
+                    Thread t = new Thread(r, "mmfixes-cache-writer");
+                    t.setDaemon(true);
+                    return t;
+                });
+
+        final java.util.Map<String, String> updatedSha1 = new java.util.HashMap<>(work.size());
+
         try {
-            for (var e : STAGED.entrySet()) {
-                ResourceLocation id = e.getKey();
-                byte[] bytes = e.getValue();
-                Path p = root.resolve(id.getNamespace()).resolve(id.getPath());
-                Files.createDirectories(p.getParent());
-                try (OutputStream os = Files.newOutputStream(p, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)) {
-                    os.write(bytes);
-                }
-                manifest.sha1.put(id.getNamespace() + ":" + id.getPath(), sha1(bytes));
+            for (var e : work) {
+                pool.execute(() -> {
+                    final ResourceLocation id = e.getKey();
+                    final byte[] bytes = e.getValue();
+                    final String key = id.getNamespace() + ":" + id.getPath();
+
+                    final String digest = sha1(bytes);
+
+                    final String prev = manifest.sha1.get(key);
+                    if (digest.equals(prev)) {
+                        updatedSha1.put(key, digest);
+                        return;
+                    }
+
+                    final Path p = root.resolve(id.getNamespace()).resolve(id.getPath());
+                    final Path parent = p.getParent();
+
+                    try {
+                        if (parent != null && CREATED_DIRS.add(parent)) {
+                            java.nio.file.Files.createDirectories(parent);
+                        }
+
+                        final String salt = Long.toUnsignedString(java.util.concurrent.ThreadLocalRandom.current().nextLong(), 36);
+                        final Path tmp = (parent != null ? parent : p.getParent())
+                                .resolve(p.getFileName() + ".tmp.~ml." + salt);
+
+                        try (java.io.OutputStream os = new java.io.BufferedOutputStream(
+                                java.nio.file.Files.newOutputStream(
+                                        tmp,
+                                        java.nio.file.StandardOpenOption.CREATE,
+                                        java.nio.file.StandardOpenOption.TRUNCATE_EXISTING,
+                                        java.nio.file.StandardOpenOption.WRITE),
+                                IO_BUFFER)) {
+                            os.write(bytes);
+                            os.flush();
+                        }
+
+                        try {
+                            java.nio.file.Files.move(tmp, p,
+                                    java.nio.file.StandardCopyOption.ATOMIC_MOVE,
+                                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                        } catch (java.nio.file.AtomicMoveNotSupportedException ex) {
+                            java.nio.file.Files.move(tmp, p, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                        }
+
+                        // record digest for manifest
+                        updatedSha1.put(key, digest);
+
+                    } catch (java.io.IOException ex) {
+                        System.err.println("[Moonlight Cache MM Fixes] cache write failed for " + id + ": " + ex);
+                    }
+                });
             }
-            Files.writeString(activeDir.resolve("manifest.json"), GSON.toJson(manifest),
-                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
-        } catch (IOException e) {
-            System.err.println("[Moonlight Cache MM Fixes] cache persist failed: " + e);
-        } finally {
-            STAGED.clear();
+
+            // wait for all writes
+            pool.shutdown();
+            try { pool.awaitTermination(5, java.util.concurrent.TimeUnit.MINUTES); }
+            catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+
+            manifest.sha1.putAll(updatedSha1);
+
+            final Path man = activeDir.resolve("manifest.json");
+            final String json = GSON.toJson(manifest);
+            final byte[] bytes = json.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+            final Path tmpMan = man.resolveSibling(man.getFileName() + ".tmp.~ml");
+            try (java.io.OutputStream os = new java.io.BufferedOutputStream(
+                    java.nio.file.Files.newOutputStream(
+                            tmpMan,
+                            java.nio.file.StandardOpenOption.CREATE,
+                            java.nio.file.StandardOpenOption.TRUNCATE_EXISTING,
+                            java.nio.file.StandardOpenOption.WRITE),
+                    IO_BUFFER)) {
+                os.write(bytes);
+                os.flush();
+            }
+            try {
+                java.nio.file.Files.move(tmpMan, man,
+                        java.nio.file.StandardCopyOption.ATOMIC_MOVE,
+                        java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            } catch (java.nio.file.AtomicMoveNotSupportedException e) {
+                java.nio.file.Files.move(tmpMan, man, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            }
+
+        } catch (Throwable t) {
+            System.err.println("[Moonlight Cache MM Fixes] cache persist failed: " + t);
         }
     }
 
