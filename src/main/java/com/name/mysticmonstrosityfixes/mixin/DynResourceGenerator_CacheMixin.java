@@ -69,7 +69,7 @@ public abstract class DynResourceGenerator_CacheMixin {
             });
         }
 
-        if (mysticmonstrosityfixes$cacheValid && !this.runsOnEveryReload() && !mysticmonstrosityfixes$firstReload) {
+        if (mysticmonstrosityfixes$cacheValid) {
             return;
         }
 
