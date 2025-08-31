@@ -176,7 +176,8 @@ dependencies {
     compileOnly(fg.deobf("curse.maven:krypton-reforged-549394:4606534"))
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
-    implementation fg.deobf("curse.maven:selene-499980:6187639")
+    implementation fg.deobf("curse.maven:selene-499980:6935940")
+    implementation fg.deobf("curse.maven:every-compat-628539:6933150")
     implementation fg.deobf("curse.maven:geckolib-388172:6027567")
     implementation fg.deobf("curse.maven:packet-fixer-689467:6017829")
 

@@ -6,6 +6,11 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
+    "DynamicResourcePack_AddBytesInvoker",
+    "DynamicResourcePack_AddBytesMixin",
+    "DynamicResourcePack_SaveBytesMixin",
+    "DynResourceGenerator_CacheMixin",
+    "EveryCompat_RegisterItems_PreSizeAndDryCountMixin",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
