@@ -10,6 +10,7 @@
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
+    "ImmersivePortalSodiumFix",
     "SpreadPlayersCommandMixin"
   ],
   "client": [
