@@ -1,157 +1,186 @@
 package com.name.mysticmonstrosityfixes.mixin;
 
-import com.mojang.logging.LogUtils;
 import dev.corgitaco.featurerecycler.FeatureRecycler;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 @Mixin(value = FeatureRecycler.class, remap = false)
 public abstract class FeatureRecyclerMixin {
 
-    @Unique
-    private static final Logger mystics_monstrosity_fixes$LOGGER = LogUtils.getLogger();
-
-    @Inject(
-        method = "recycle",
-        at = @At("HEAD"),
-        cancellable = true
-    )
-    private static <T extends Holder<Biome>> void fastRecycle(
-        List<T> biomes,
-        Function<T, List<HolderSet<PlacedFeature>>> toFeatureSetFunction,
-        CallbackInfoReturnable<List<FeatureSorter.StepFeatureData>> cir
+    /**
+     * @author Mysticpasta1, CorgiTaco
+     * @reason Same functionality, parallelized per generation step
+     */
+    @Overwrite
+    public static <T extends Holder<Biome>> List<FeatureSorter.StepFeatureData> recycle(
+            List<T> biomes,
+            Function<T, List<HolderSet<PlacedFeature>>> toFeatueSetFunction
     ) {
         long startTime = System.currentTimeMillis();
-        int crashesPrevented = 0;
+        FeatureRecycler.LOGGER.info("Starting feature recycler...");
 
-        GenerationStep.Decoration[] steps = GenerationStep.Decoration.values();
-        List<FeatureSorter.StepFeatureData> result = new ArrayList<>(steps.length);
+        AtomicInteger crashesPrevented = new AtomicInteger();
 
-        // === Step-by-step ===
-        for (int stepIdx = 0; stepIdx < steps.length; stepIdx++) {
+        List<Map<T, List<Holder<PlacedFeature>>>> biomeTracker = new ArrayList<>();
+        for (GenerationStep.Decoration ignored : GenerationStep.Decoration.values()) {
+            biomeTracker.add(new Reference2ObjectLinkedOpenHashMap<>());
+        }
 
-            Object2IntOpenHashMap<Holder<PlacedFeature>> idMap = new Object2IntOpenHashMap<>();
-            idMap.defaultReturnValue(-1);
+        for (T biome : biomes) {
+            List<HolderSet<PlacedFeature>> features = toFeatueSetFunction.apply(biome);
+            for (int i = 0; i < features.size(); i++) {
+                biomeTracker.get(i)
+                        .put(biome, new ArrayList<>(features.get(i).stream().toList()));
+            }
+        }
 
-            List<Holder<PlacedFeature>> idToHolder = new ArrayList<>();
-            List<IntSet> edges = new ArrayList<>();
-            IntArrayList firstSeenBiome = new IntArrayList();
+        biomeTracker.parallelStream().forEach(featuresForBiomeStage -> {
 
-            // Allocate node
-            java.util.function.IntSupplier newNode = () -> {
-                edges.add(new IntOpenHashSet());
-                firstSeenBiome.add(Integer.MAX_VALUE);
-                return edges.size() - 1;
-            };
-
-            // === Build ordering constraints (exact semantic match) ===
             for (int biomeIdx = 0; biomeIdx < biomes.size(); biomeIdx++) {
                 T biome = biomes.get(biomeIdx);
-                List<HolderSet<PlacedFeature>> featureSets = toFeatureSetFunction.apply(biome);
-                if (stepIdx >= featureSets.size()) continue;
+                List<Holder<PlacedFeature>> currentList =
+                        featuresForBiomeStage.get(biome);
 
-                List<Holder<PlacedFeature>> list =
-                    featureSets.get(stepIdx).stream().toList();
+                if (currentList == null) continue;
 
-                for (int i = 0; i < list.size(); i++) {
-                    Holder<PlacedFeature> a = list.get(i);
-                    int finalBiomeIdx = biomeIdx;
-                    int aId = idMap.computeIfAbsent(a, __ -> {
-                        int id = newNode.getAsInt();
-                        idToHolder.add(a);
-                        firstSeenBiome.set(id, finalBiomeIdx);
-                        return id;
-                    });
+                for (int currentHolderIndex = 0;
+                     currentHolderIndex < currentList.size();
+                     currentHolderIndex++) {
 
-                    for (int j = i + 1; j < list.size(); j++) {
-                        Holder<PlacedFeature> b = list.get(j);
-                        int finalBiomeIdx1 = biomeIdx;
-                        int bId = idMap.computeIfAbsent(b, __ -> {
-                            int id = newNode.getAsInt();
-                            idToHolder.add(b);
-                            firstSeenBiome.set(id, finalBiomeIdx1);
-                            return id;
-                        });
+                    Holder<PlacedFeature> currentHolder =
+                            currentList.get(currentHolderIndex);
 
-                        edges.get(aId).add(bId);
+                    for (int nextHolderIndex = currentHolderIndex + 1;
+                         nextHolderIndex < currentList.size();
+                         nextHolderIndex++) {
+
+                        Holder<PlacedFeature> nextHolder =
+                                currentList.get(nextHolderIndex);
+
+                        int currentFeatureIDX = -1;
+                        int nextFeatureIDX = -1;
+                        Holder<Biome> biomeRuleSetter = null;
+
+                        for (int previousBiomeIdx = 0;
+                             previousBiomeIdx < biomeIdx - 1;
+                             previousBiomeIdx++) {
+
+                            T previousBiome = biomes.get(previousBiomeIdx);
+                            List<Holder<PlacedFeature>> previousStage =
+                                    featuresForBiomeStage.get(previousBiome);
+
+                            if (previousStage == null) continue;
+
+                            for (int k = 0; k < previousStage.size(); k++) {
+                                Holder<PlacedFeature> h = previousStage.get(k);
+                                if (h == currentHolder) currentFeatureIDX = k;
+                                if (h == nextHolder) nextFeatureIDX = k;
+                                if (currentFeatureIDX >= 0 && nextFeatureIDX >= 0)
+                                    break;
+                            }
+
+                            biomeRuleSetter = previousBiome;
+                            break;
+                        }
+
+                        if (nextFeatureIDX >= 0
+                                && currentFeatureIDX > nextFeatureIDX) {
+
+                            ResourceLocation currentBiomeLocation =
+                                    biome.unwrapKey().map(ResourceKey::location).orElse(null);
+
+                            ResourceLocation ruleSetterLocation =
+                                    biomeRuleSetter.unwrapKey().map(ResourceKey::location).orElse(null);
+
+                            String currentBiomeName =
+                                    currentBiomeLocation == null ? "???" : currentBiomeLocation.toString();
+
+                            String currentFeatureName =
+                                    currentHolder.unwrapKey().map(ResourceKey::location)
+                                            .map(ResourceLocation::toString).orElse("???");
+
+                            String nextFeatureName =
+                                    nextHolder.unwrapKey().map(ResourceKey::location)
+                                            .map(ResourceLocation::toString).orElse("???");
+
+                            String biomeRuleSetterName =
+                                    ruleSetterLocation == null ? "???" : ruleSetterLocation.toString();
+
+                            FeatureRecycler.LOGGER.warn(
+                                    "Moved placed feature \"{}\" from index {} to index {} for biome \"{}\". Placed Feature index rules set by biome \"{}\".",
+                                    currentFeatureName, currentHolderIndex, nextHolderIndex,
+                                    currentBiomeName, biomeRuleSetterName
+                            );
+                            FeatureRecycler.LOGGER.warn(
+                                    "Moved placed feature \"{}\" from index {} to index {} for biome \"{}\". Placed Feature index rules set by biome \"{}\".",
+                                    nextFeatureName, nextHolderIndex, currentHolderIndex,
+                                    currentBiomeName, biomeRuleSetterName
+                            );
+                            FeatureRecycler.LOGGER.warn(
+                                    "Just prevented a crash between {} and {}! Please report the issues to their respective issue trackers.",
+                                    currentBiomeLocation == null ? "???" : currentBiomeLocation.getNamespace(),
+                                    ruleSetterLocation == null ? "???" : ruleSetterLocation.getNamespace()
+                            );
+
+                            crashesPrevented.incrementAndGet();
+                            currentList.set(currentHolderIndex, nextHolder);
+                            currentList.set(nextHolderIndex, currentHolder);
+                        }
                     }
                 }
             }
+        });
 
-            int nodeCount = idToHolder.size();
-            if (nodeCount == 0) {
-                result.add(new FeatureSorter.StepFeatureData(List.of(), pf -> -1));
-                continue;
+        List<FeatureSorter.StepFeatureData> steps = new ArrayList<>();
+
+        biomeTracker.forEach(stepData -> {
+            List<PlacedFeature> organized = new ArrayList<>();
+            Object2IntOpenHashMap<PlacedFeature> indexGetter =
+                    new Object2IntOpenHashMap<>();
+
+            int idx = 0;
+            for (List<Holder<PlacedFeature>> value : stepData.values()) {
+                for (Holder<PlacedFeature> holder : value) {
+                    PlacedFeature pf = holder.value();
+                    organized.add(pf);
+                    indexGetter.put(pf, idx++);
+                }
             }
 
-            // === Topological sort with same tie-breaking ===
-            int[] indegree = new int[nodeCount];
-            for (int u = 0; u < nodeCount; u++) {
-                for (int v : edges.get(u)) indegree[v]++;
-            }
+            steps.add(new FeatureSorter.StepFeatureData(
+                    organized,
+                    indexGetter::getInt
+            ));
+        });
 
-            PriorityQueue<Integer> queue = new PriorityQueue<>(
-                Comparator.comparingInt(firstSeenBiome::getInt)
+        FeatureRecycler.LOGGER.info(
+                "Finished recycling features. Took {}ms",
+                System.currentTimeMillis() - startTime
+        );
+
+        int prevented = crashesPrevented.get();
+        if (prevented > 0) {
+            FeatureRecycler.LOGGER.info(
+                    "Feature Recycler just prevented {} crashes!",
+                    prevented
             );
-
-            for (int i = 0; i < nodeCount; i++) {
-                if (indegree[i] == 0) queue.add(i);
-            }
-
-            IntArrayList topo = new IntArrayList(nodeCount);
-
-            while (!queue.isEmpty()) {
-                int u = queue.poll();
-                topo.add(u);
-                for (int v : edges.get(u)) {
-                    if (--indegree[v] == 0) queue.add(v);
-                }
-            }
-
-            // === Cycle fallback (matches original behavior: "first wins") ===
-            if (topo.size() < nodeCount) {
-                for (int i = 0; i < nodeCount; i++) {
-                    if (indegree[i] > 0) {
-                        topo.add(i);
-                        crashesPrevented++;
-                    }
-                }
-            }
-
-            // === Build StepFeatureData ===
-            List<PlacedFeature> ordered = new ArrayList<>(nodeCount);
-            Object2IntOpenHashMap<PlacedFeature> indexMap = new Object2IntOpenHashMap<>();
-
-            for (int i = 0; i < topo.size(); i++) {
-                Holder<PlacedFeature> holder = idToHolder.get(topo.getInt(i));
-                PlacedFeature pf = holder.value();
-                ordered.add(pf);
-                indexMap.put(pf, i);
-            }
-
-            result.add(new FeatureSorter.StepFeatureData(ordered, indexMap::getInt));
         }
 
-        mystics_monstrosity_fixes$LOGGER.info("Finished recycling features. Took {}ms", System.currentTimeMillis() - startTime);
-        if (crashesPrevented > 0) {
-            mystics_monstrosity_fixes$LOGGER.info("Feature Recycler just prevented {} crashes!", crashesPrevented);
-        }
-
-        cir.setReturnValue(result);
+        return steps;
     }
 }
+
