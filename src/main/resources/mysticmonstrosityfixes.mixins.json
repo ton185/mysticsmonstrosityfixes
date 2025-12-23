@@ -6,12 +6,10 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
-    "FillBiomeCommand_OptimizeMixin",
+    "FeatureRecyclerMixin",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
-    "KryptonReforgedVarIntFix",
-    "ImmersivePortalSodiumFix",
-    "SpreadPlayersCommandMixin"
+    "KryptonReforgedVarIntFix"
   ],
   "client": [
     "FTBLibraryNullFix",

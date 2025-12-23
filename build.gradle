@@ -163,10 +163,9 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("curse.maven:async-jei-just-enough-item-1180017:6090110")
+    implementation fg.deobf("curse.maven:jei-238222:7361881")
     implementation fg.deobf("curse.maven:ftb-library-forge-404465:6016763")
     implementation fg.deobf("curse.maven:codechicken-lib-1-8-242818:5753868")
-    implementation fg.deobf("curse.maven:supplementaries-412082:6713838")
     implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
     implementation fg.deobf("curse.maven:journey-into-the-light-mod-354673:5826323")
     implementation fg.deobf("curse.maven:blood-magic-224791:5290993")
@@ -176,11 +175,9 @@ dependencies {
     compileOnly(fg.deobf("curse.maven:krypton-reforged-549394:4606534"))
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
-    implementation fg.deobf("curse.maven:selene-499980:6935940")
-    implementation fg.deobf("curse.maven:every-compat-628539:6933150")
     implementation fg.deobf("curse.maven:geckolib-388172:6027567")
     implementation fg.deobf("curse.maven:packet-fixer-689467:6017829")
-    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
+    implementation fg.deobf("curse.maven:feature-recycler-1077985:5610347")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
