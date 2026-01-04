@@ -32,16 +32,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(MysticsMonstrosityFixes.MODID)
 public class MysticsMonstrosityFixes {
 
-    // Define mod id in a common place for everything to reference
     public static final String MODID = "mysticmonstrosityfixes";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public MysticsMonstrosityFixes() {
-        //MinecraftForge.EVENT_BUS.register(this);
-    }
+    public MysticsMonstrosityFixes() {}
 }

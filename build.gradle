@@ -172,12 +172,11 @@ dependencies {
     implementation fg.deobf("curse.maven:curios-309927:6058834")
     implementation fg.deobf("curse.maven:mo-shiz-mod-62536:5587177")
     implementation fg.deobf("curse.maven:inventory-pets-229380:5776970")
-    compileOnly(fg.deobf("curse.maven:krypton-reforged-549394:4606534"))
+    compileOnly fg.deobf("curse.maven:krypton-reforged-549394:4606534")
     implementation fg.deobf("curse.maven:patchouli-306770:6164575")
     implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
     implementation fg.deobf("curse.maven:geckolib-388172:6027567")
     implementation fg.deobf("curse.maven:packet-fixer-689467:6017829")
-    implementation fg.deobf("curse.maven:feature-recycler-1077985:5610347")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")

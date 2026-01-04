@@ -6,7 +6,6 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
-    "FeatureRecyclerMixin",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix"
