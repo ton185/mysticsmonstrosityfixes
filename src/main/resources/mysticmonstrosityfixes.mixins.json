@@ -14,7 +14,8 @@
     "FTBLibraryNullFix",
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
-    "SoLCarrotFoodsNullFix"
+    "SoLCarrotFoodsNullFix",
+    "WhiteDotFix"
   ],
   "injectors": {
     "defaultRequire": 1
