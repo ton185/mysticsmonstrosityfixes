@@ -15,7 +15,8 @@
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
     "SoLCarrotFoodsNullFix",
-    "WhiteDotFix"
+    "WhiteDotFix",
+    "SolarCraftShaderLoadCrashFix"
   ],
   "injectors": {
     "defaultRequire": 1
