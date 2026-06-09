@@ -16,7 +16,9 @@
     "JITLDeathCrashFix",
     "SoLCarrotFoodsNullFix",
     "WhiteDotFix",
-    "SolarCraftShaderLoadCrashFix"
+    "SolarCraftShaderLoadCrashFix",
+    "CapsulePreviewCrashFix",
+    "EidolonRepraisedHeartLagFix"
   ],
   "injectors": {
     "defaultRequire": 1
