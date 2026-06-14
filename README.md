@@ -15,3 +15,6 @@ Basically just a collection of hacky fixes or small changes to other mods, eithe
 - Fix a crash in Solar Craft when loading shaders with zero window dimensions [[code](src/main/java/com/name/mysticmonstrosityfixes/mixin/SolarCraftShaderLoadCrashFix.java)]
 - Fix a crash in SoL Carrot when the food blacklist list is null [[code](src/main/java/com/name/mysticmonstrosityfixes/mixin/SolCarrotFoodsNullFix.java)]
 - Fix white dot rendering artifacts by adjusting UV coordinates in model baking [[code](src/main/java/com/name/mysticmonstrosityfixes/mixin/WhiteDotFix.java)]
+- Fix a crash when Capsule mod tries to render a preview for improperly coded blocks [[code](src/main/java/com/name/mysticmonstrosityfixes/mixin/CapsulePreviewCrashFix.java)]
+- "Fix" lag when Eidolon tries to render HP overlay for users with lots of health (fully disabled the renderer) [[code](src/main/java/com/name/mysticmonstrosityfixes/mixin/EidolonRepraisedHeartLagFix.java)]
+- Fix Soulslike weaponry lag (it checks if a mod is loaded every tick, we cache the result) [[code](src/main/java/com/name/mysticmonstrosityfixes/mixin/MixinSoulslikeWeaponryLoadCheck.java)]
