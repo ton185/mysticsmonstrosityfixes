@@ -12,8 +12,8 @@ public class MixinSoulslikeWeaponryLoadCheck {
         throw new UnsupportedOperationException("Implemented via mixin");
     }
 
-    public static boolean isFightModLoaded = false;
-    public static boolean isFightModCached = false;
+    private static boolean isFightModLoaded = false;
+    private static boolean isFightModCached = false;
 
     /**
      * @author ton185
