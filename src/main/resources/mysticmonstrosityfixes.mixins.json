@@ -8,17 +8,18 @@
     "BloodMagicNullCapabilityFix",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
-    "KryptonReforgedVarIntFix"
+    "KryptonReforgedVarIntFix",
+    "MixinSoulslikeWeaponryLoadCheck"
   ],
   "client": [
+    "CapsulePreviewCrashFix",
+    "EidolonRepraisedHeartLagFix",
     "FTBLibraryNullFix",
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
-    "SoLCarrotFoodsNullFix",
-    "WhiteDotFix",
     "SolarCraftShaderLoadCrashFix",
-    "CapsulePreviewCrashFix",
-    "EidolonRepraisedHeartLagFix"
+    "SoLCarrotFoodsNullFix",
+    "WhiteDotFix"
   ],
   "injectors": {
     "defaultRequire": 1
