@@ -9,7 +9,8 @@
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
-    "MixinSoulslikeWeaponryLoadCheck"
+    "MixinSoulslikeWeaponryLoadCheck",
+    "WcwtByteBufCodecsFix"
   ],
   "client": [
     "CapsulePreviewCrashFix",
@@ -18,8 +19,7 @@
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
     "SolarCraftShaderLoadCrashFix",
-    "SoLCarrotFoodsNullFix",
-    "WhiteDotFix"
+    "SoLCarrotFoodsNullFix"
   ],
   "injectors": {
     "defaultRequire": 1
