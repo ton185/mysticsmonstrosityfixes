@@ -9,8 +9,7 @@
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
-    "MixinSoulslikeWeaponryLoadCheck",
-    "WcwtByteBufCodecsFix"
+    "MixinSoulslikeWeaponryLoadCheck"
   ],
   "client": [
     "CapsulePreviewCrashFix",
