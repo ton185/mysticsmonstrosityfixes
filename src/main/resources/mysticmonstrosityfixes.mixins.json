@@ -20,7 +20,6 @@
     "JITLDeathCrashFix",
     "SolarCraftShaderLoadCrashFix",
     "SoLCarrotFoodsNullFix",
-    "WhiteDotFix"
   ],
   "injectors": {
     "defaultRequire": 1
