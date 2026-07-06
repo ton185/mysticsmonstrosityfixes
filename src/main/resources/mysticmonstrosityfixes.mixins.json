@@ -6,11 +6,14 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
+    "BotanyPotLagFix",
     "CapsuleDisableRecallEnchantment",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
-    "MixinSoulslikeWeaponryLoadCheck"
+    "MixinSoulslikeWeaponryLoadCheck",
+    "BotanyPotContainerFix",
+    "PowerPotsLagFix"
   ],
   "client": [
     "CapsulePreviewCrashFix",
@@ -19,7 +22,7 @@
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
     "SolarCraftShaderLoadCrashFix",
-    "SoLCarrotFoodsNullFix",
+    "SoLCarrotFoodsNullFix"
   ],
   "injectors": {
     "defaultRequire": 1

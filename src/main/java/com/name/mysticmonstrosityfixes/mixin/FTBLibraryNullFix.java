@@ -31,23 +31,25 @@ public class FTBLibraryNullFix {
     public void nullFix(double mouseX, double mouseY, CallbackInfoReturnable<Optional<IClickableIngredient<?>>> cir) {
         cir.cancel();
         Screen currentScreen = Minecraft.getInstance().screen;
-        if (currentScreen instanceof IScreenWrapper wrapper) {
-            if (wrapper.getGui().getIngredientUnderMouse().isPresent()) {
-                PositionedIngredient underMouse = wrapper.getGui().getIngredientUnderMouse().get();
-                Object typed = underMouse.ingredient();
-                if(runtime != null) {
-                    if (typed instanceof ItemStack stack) {
-                        Optional<ITypedIngredient<ItemStack>> typed2 = runtime.getIngredientManager().createTypedIngredient(VanillaTypes.ITEM_STACK, stack);
-                        typed2.ifPresent(itemStackITypedIngredient -> cir.setReturnValue(Optional.of(new ClickableIngredient<>(itemStackITypedIngredient, new ImmutableRect2i(underMouse.area())))));
-                    } else {
-                        typed = underMouse.ingredient();
-                        if (typed instanceof FluidStack stack) {
-                            Optional<ITypedIngredient<FluidStack>> typed2 = runtime.getIngredientManager().createTypedIngredient(ForgeTypes.FLUID_STACK, stack);
-                            typed2.ifPresent(fluidStackITypedIngredient -> cir.setReturnValue(Optional.of(new ClickableIngredient<>(fluidStackITypedIngredient, new ImmutableRect2i(underMouse.area())))));
-                        }
+        if (currentScreen instanceof IScreenWrapper wrapper && wrapper.getGui().getIngredientUnderMouse().isPresent()) {
+            PositionedIngredient underMouse = wrapper.getGui().getIngredientUnderMouse().get();
+            Object typed = underMouse.ingredient();
+            if (runtime != null) {
+                if (typed instanceof ItemStack stack) {
+                    Optional<ITypedIngredient<ItemStack>> typed2 = runtime.getIngredientManager().createTypedIngredient(VanillaTypes.ITEM_STACK, stack);
+                    if (typed2.isPresent()) {
+                        cir.setReturnValue(Optional.of(new ClickableIngredient<>(typed2.get(), new ImmutableRect2i(underMouse.area()))));
+                        return;
                     }
                 } else {
-                    cir.setReturnValue(Optional.empty());
+                    typed = underMouse.ingredient();
+                    if (typed instanceof FluidStack stack) {
+                        Optional<ITypedIngredient<FluidStack>> typed2 = runtime.getIngredientManager().createTypedIngredient(ForgeTypes.FLUID_STACK, stack);
+                        if (typed2.isPresent()) {
+                            cir.setReturnValue(Optional.of(new ClickableIngredient<>(typed2.get(), new ImmutableRect2i(underMouse.area()))));
+                            return;
+                        }
+                    }
                 }
             }
         }
