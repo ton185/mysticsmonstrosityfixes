@@ -13,7 +13,9 @@
     "KryptonReforgedVarIntFix",
     "MixinSoulslikeWeaponryLoadCheck",
     "BotanyPotContainerFix",
-    "PowerPotsLagFix"
+    "PowerPotsLagFix",
+    "DimensionIdRecordAccessor",
+    "DimensionIdManagementMixin"
   ],
   "client": [
     "CapsulePreviewCrashFix",
