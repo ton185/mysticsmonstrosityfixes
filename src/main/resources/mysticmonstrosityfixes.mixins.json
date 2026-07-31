@@ -6,16 +6,18 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "mixins": [
     "BloodMagicNullCapabilityFix",
+    "BotanyPotContainerFix",
     "BotanyPotLagFix",
     "CapsuleDisableRecallEnchantment",
+    "DimensionIdManagementMixin",
+    "DimensionIdRecordAccessor",
+    "EmbersMixin",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
+    "LodestoneMixin",
     "MixinSoulslikeWeaponryLoadCheck",
-    "BotanyPotContainerFix",
-    "PowerPotsLagFix",
-    "DimensionIdRecordAccessor",
-    "DimensionIdManagementMixin"
+    "PowerPotsLagFix"
   ],
   "client": [
     "CapsulePreviewCrashFix",
