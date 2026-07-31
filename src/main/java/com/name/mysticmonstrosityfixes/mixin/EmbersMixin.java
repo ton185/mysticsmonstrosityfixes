@@ -14,7 +14,7 @@ import qouteall.imm_ptl.core.render.context_management.PortalRendering;
 public class EmbersMixin {
 
     @Inject(
-            method = "onLevelRender",
+            method = "onWorldRender",
             at = @At("HEAD"),
             cancellable = true
     )
