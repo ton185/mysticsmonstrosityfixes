@@ -1,6 +1,7 @@
 package com.name.mysticmonstrosityfixes.mixin;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,8 +19,10 @@ public class LodestoneMixin {
             cancellable = true
     )
     private static void skipDepthCopy(RenderTarget target, CallbackInfo ci) {
-        if (PortalRendering.isRendering()) {
-            ci.cancel();
+        if(ModList.get().isLoaded("immersive_portals")) {
+            if (PortalRendering.isRendering()) {
+                ci.cancel();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.name.mysticmonstrosityfixes.mixin;
 
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,8 +20,10 @@ public class EmbersMixin {
             cancellable = true
     )
     private static void skipDuringPortalRendering(RenderLevelStageEvent event, CallbackInfo ci) {
-        if (PortalRendering.isRendering()) {
-            ci.cancel();
+        if(ModList.get().isLoaded("immersive_portals")) {
+            if (PortalRendering.isRendering()) {
+                ci.cancel();
+            }
         }
     }
 }
