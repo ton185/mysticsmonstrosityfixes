@@ -1,8 +1,8 @@
-# Mystics Monstrosity Fixes
-Some fixes for Mystic's Monstrosity modpack
+# Mystic's  Fixes
+Some fixes originally for Mystic's Monstrosity modpack
 
 ## What?
-Basically just a collection of hacky fixes or small changes to other mods, either for compatibility or to fix crashes.
+Basically just a collection of hacky fixes or small changes to other mods, either for compatibility or to fix crashes that we decided to release to the public now.
 
 ## Current Fixes
 
