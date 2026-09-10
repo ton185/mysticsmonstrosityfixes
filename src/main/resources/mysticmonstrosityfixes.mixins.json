@@ -13,13 +13,15 @@
     "DimensionIdManagementMixin",
     "DimensionIdRecordAccessor",
     "EmbersMixin",
+    "HugeMushroomSpeciesMixin",
     "IngredientAccessor",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
     "LodestoneMixin",
     "MixinSoulslikeWeaponryLoadCheck",
-    "RecipeManagerAccessor"
+    "RecipeManagerAccessor",
+    "SpeciesAccessor"
   ],
   "client": [
     "CapsulePreviewCrashFix",

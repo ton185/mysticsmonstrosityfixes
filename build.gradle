@@ -189,6 +189,8 @@ dependencies {
     implementation fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
     implementation fg.deobf("curse.maven:embers-rekindled-300777:7446478")
     implementation fg.deobf("curse.maven:lodestone-616457:6213794")
+    implementation fg.deobf("curse.maven:dynamictrees-252818:8227003")
+    implementation fg.deobf("curse.maven:dynamictreesplus-478155:7502535")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
