@@ -191,6 +191,14 @@ dependencies {
     implementation fg.deobf("curse.maven:lodestone-616457:6213794")
     implementation fg.deobf("curse.maven:dynamictrees-252818:8227003")
     implementation fg.deobf("curse.maven:dynamictreesplus-478155:7502535")
+    implementation fg.deobf("curse.maven:moving-elevators-373051:7600461")
+    implementation fg.deobf("curse.maven:supermartijn642s-config-lib-438332:4715408")
+    implementation fg.deobf("curse.maven:supermartijn642s-core-lib-454372:8943195")
+    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
+    implementation fg.deobf("curse.maven:colorful-lighting-sodium-1373023:8581227")
+    implementation fg.deobf("curse.maven:guideme-1173950:8204776")
+    implementation fg.deobf("curse.maven:cloth-config-348521:5729105")
+    implementation fg.deobf("curse.maven:attributefix-280510:7612291")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")

@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import qouteall.q_misc_util.dimension.DimensionIdRecord;
 
-@Mixin(DimensionIdRecord.class)
+@Mixin(value = DimensionIdRecord.class, remap = false)
 public interface DimensionIdRecordAccessor {
     @Accessor("idMap")
     BiMap<ResourceKey<Level>, Integer> getDimIdMap();

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import qouteall.q_misc_util.dimension.DimensionIdManagement;
 import qouteall.q_misc_util.dimension.DimensionIdRecord;
 
-@Mixin(DimensionIdManagement.class)
+@Mixin(value = DimensionIdManagement.class, remap = false)
 public abstract class DimensionIdManagementMixin {
     @Unique
     private static final ResourceKey<Level> AE2_SPATIAL_STORAGE = ResourceKey.create(
