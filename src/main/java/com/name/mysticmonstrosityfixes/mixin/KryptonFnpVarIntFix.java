@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public abstract class KryptonFnpVarIntFix {
 
     @ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 3), remap = false)
-    private int mmf$defaultVarIntSize(int original) {
+    private static int mmf$defaultVarIntSize(int original) {
         return Config.getVarInt21Size();
     }
 
     @ModifyConstant(method = "<clinit>", constant = @Constant(intValue = 5), remap = false)
-    private int mmf$oversizedVarIntSize(int original) {
+    private static int mmf$oversizedVarIntSize(int original) {
         return Config.getVarInt21Size();
     }
 }
