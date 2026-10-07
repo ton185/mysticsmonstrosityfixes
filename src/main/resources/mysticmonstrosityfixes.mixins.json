@@ -17,7 +17,7 @@
     "IngredientAccessor",
     "InventoryPetsNbtNullFix",
     "JITLOfflineCrashFix",
-    "KryptonFnpVarIntFix",
+    "KryptonReforgedVarIntFix",
     "LodestoneMixin",
     "MixinSoulslikeWeaponryLoadCheck",
     "MovingElevatorsCabinCLCompat",
