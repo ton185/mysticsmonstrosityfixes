@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.name.mysticmonstrosityfixes.mixin.experimental",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mysticmonstrosityfixes.refmap.json",
+  "plugin": "com.name.mysticmonstrosityfixes.mixin.MysticMonstrosityFixesMixinPlugin",
+  "mixins": [
+    "bootcache.BootResourceCacheFlushMixin",
+    "bootcache.BootResourceCacheMixin",
+    "bootcache.FilePackResourcesAccessor",
+    "bootcache.PathPackResourcesAccessor"
+  ],
+  "client": [
+    "blockatlas.BlockAtlasFilterMixin",
+    "blockatlas.BlockAtlasGlBindMixin",
+    "blockatlas.BlockAtlasNativeImageMixin",
+    "blockatlas.BlockAtlasParticleMixin",
+    "blockatlas.BlockAtlasProgramMixin",
+    "blockatlas.BlockAtlasShaderBindMixin",
+    "blockatlas.BlockAtlasShaderSourceMixin",
+    "blockatlas.BlockAtlasSpriteUvMixin",
+    "blockatlas.BlockAtlasStitcherMixin",
+    "blockatlas.BlockAtlasStitchMixin",
+    "blockatlas.BlockAtlasUploadMixin",
+    "blockatlas.NativeImagePixelsAccessor",
+    "blockatlas.TextureAtlasSpriteInvoker"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

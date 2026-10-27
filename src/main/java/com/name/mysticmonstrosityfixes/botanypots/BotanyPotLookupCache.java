@@ -1,7 +1,7 @@
 package com.name.mysticmonstrosityfixes.botanypots;
 
-import com.name.mysticmonstrosityfixes.mixin.IngredientAccessor;
-import com.name.mysticmonstrosityfixes.mixin.RecipeManagerAccessor;
+import com.name.mysticmonstrosityfixes.mixin.loading.IngredientAccessor;
+import com.name.mysticmonstrosityfixes.mixin.loading.RecipeManagerAccessor;
 import net.darkhax.botanypots.BotanyPotHelper;
 import net.darkhax.botanypots.block.BlockEntityBotanyPot;
 import net.darkhax.botanypots.data.recipes.crop.BasicCrop;

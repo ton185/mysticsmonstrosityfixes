@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.name.mysticmonstrosityfixes.mixin.loading",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mysticmonstrosityfixes.refmap.json",
+  "plugin": "com.name.mysticmonstrosityfixes.mixin.MysticMonstrosityFixesMixinPlugin",
+  "mixins": [
+    "BotanyPotLagFix",
+    "BotanyPotLookupLagFix",
+    "CapsuleDisableRecallEnchantment",
+    "EmbersMixin",
+    "IngredientAccessor",
+    "LodestoneMixin",
+    "MixinSoulslikeWeaponryLoadCheck",
+    "RecipeManagerAccessor"
+  ],
+  "client": [
+    "AlexsMobsGhostlyPickaxeBakeFix",
+    "EidolonRepraisedHeartLagFix",
+    "FaktocraftCoverBakeFix",
+    "ImmersiveConvergenceBakeFix",
+    "ModernFixCoverBakeFix",
+    "SplitModelHandlerAccessor",
+    "VoltexCoverBakeFix",
+    "VoltexDynamicCoverFix"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
