@@ -97,6 +97,8 @@ public final class BlockAtlasPages {
     private static final int SHARED_SAMPLER_UNIT = 12;
     private static int fallbackArrayId;
     private static final Map<Integer, Integer> sharedSamplerLocations = new HashMap<>();
+    /** {@code MmfAtlasBound} location per program. 1 while Sampler0 is the block atlas page-0 view. */
+    private static final Map<Integer, Integer> sharedAtlasBoundLocations = new HashMap<>();
     /** Programs whose fragment declares {@code MmfPages}. Litter binds its program without {@code ShaderInstance.apply}. */
     private static final Set<Integer> sharedPrograms = ConcurrentHashMap.newKeySet();
     private static boolean textureViews;
@@ -439,6 +441,7 @@ public final class BlockAtlasPages {
     public static void noteGlBind(int texture) {
         glRequestedId = texture;
         arrayBound = texture != 0 && texture == arrayTextureId;
+        noteAtlasSampler(texture == atlasViewId);
     }
 
     public static void bindTexture(int target, int texture) {
@@ -508,11 +511,39 @@ public final class BlockAtlasPages {
         }
         int previous = GlStateManager._getActiveTexture();
         try {
+            GlStateManager._activeTexture(GL13.GL_TEXTURE0);
+            boolean atlas = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D) == atlasViewId;
             GlStateManager._activeTexture(GL13.GL_TEXTURE0 + SHARED_SAMPLER_UNIT);
             GL11.glBindTexture(GL30.GL_TEXTURE_2D_ARRAY, sharedArrayTexture());
             GL20.glUniform1i(location, SHARED_SAMPLER_UNIT);
+            uploadAtlasBound(program, atlas);
         } finally {
             GlStateManager._activeTexture(previous);
+        }
+    }
+
+    /**
+     * A shared shader reads a later page only while the block atlas page-0 view is bound on Sampler0.
+     * A menu strip binds its own texture and repeats U past 1, and that sample has to stay on that texture.
+     */
+    private static void noteAtlasSampler(boolean atlas) {
+        if (sharedPrograms.isEmpty()) {
+            return;
+        }
+        int program = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
+        if (sharedPrograms.contains(program)) {
+            uploadAtlasBound(program, atlas);
+        }
+    }
+
+    private static void uploadAtlasBound(int program, boolean atlas) {
+        Integer cached = sharedAtlasBoundLocations.get(program);
+        int location = cached != null ? cached : GL20.glGetUniformLocation(program, "MmfAtlasBound");
+        if (cached == null) {
+            sharedAtlasBoundLocations.put(program, location);
+        }
+        if (location >= 0) {
+            GL20.glUniform1f(location, atlas ? 1.0F : 0.0F);
         }
     }
 
@@ -533,6 +564,7 @@ public final class BlockAtlasPages {
         int program = shader.getId();
         sharedPrograms.remove(program);
         sharedSamplerLocations.remove(program);
+        sharedAtlasBoundLocations.remove(program);
     }
 
     private static int sharedArrayTexture() {
@@ -776,6 +808,10 @@ public final class BlockAtlasPages {
 
     public static SpriteLoader.Preparations stitch(ResourceLocation location, int maxGpuSize, List<SpriteContents> sprites, int requestedMip, Executor executor) {
         int pageSize = pageSize(maxGpuSize);
+        // Fusion's own expand runs as a change to stitch's sprite list. Cancelling that stitch skips it
+        // when the expand is ordered after this replacement, and a sheet placeholder would then be paged
+        // in place of every connection tile.
+        sprites = expandFusionSprites(sprites);
         int mipLevel = chooseMipLevel(location, sprites, requestedMip);
         PAGING.set(true);
         quietExpectedOverflow();
@@ -843,7 +879,7 @@ public final class BlockAtlasPages {
                     regions.put(contents.name(), sprite);
                 });
             }
-            assignPages(builtPages);
+            sealPages(regions, builtPages, pageSize, mipLevel);
             warnedPageLimit = false;
             BlockAtlasPageCache.save(placed, pageSize, mipLevel, stitched.size(), lookup.hash());
             LOGGER.info("Stitched {} block sprites into {} page(s) of {}x{}", regions.size(), stitched.size(), pageSize, pageSize);
@@ -1034,6 +1070,86 @@ public final class BlockAtlasPages {
         return pageCount;
     }
 
+    /**
+     * Fusion stores one placeholder per sheet, then {@code onStitchSprites} swaps in one contents per tile.
+     * A second call is a no-op: the tiles are not placeholders.
+     */
+    private static List<SpriteContents> expandFusionSprites(List<SpriteContents> sprites) {
+        try {
+            Class<?> handler = Class.forName("com.supermartijn642.fusion.texture.TextureCreationHandler");
+            Method expand = handler.getDeclaredMethod("onStitchSprites", List.class);
+            @SuppressWarnings("unchecked")
+            List<SpriteContents> expanded = (List<SpriteContents>) expand.invoke(null, sprites);
+            if (expanded == null) {
+                return sprites;
+            }
+            if (expanded != sprites) {
+                LOGGER.info("Expanded Fusion sheet placeholders before paging the block atlas");
+            }
+            return expanded;
+        } catch (ClassNotFoundException exception) {
+            return sprites;
+        } catch (ReflectiveOperationException exception) {
+            LOGGER.warn("Could not expand Fusion sheets for the paged block atlas", exception);
+            return sprites;
+        }
+    }
+
+    /**
+     * Fusion builds connected-texture tiles in {@code getStitchedSprites}, after the stitch returns
+     * the sprite map. Paging replaces that stitch, so Dawn of Time masonry and Crystalix glass never
+     * received their tile sprites or connection rules. The page index stays off {@code getU0} for the
+     * call: a custom Fusion sprite copies that value into its fields, and the page mixin would add it again.
+     */
+    private static void sealPages(Map<ResourceLocation, TextureAtlasSprite> regions,
+                                   Map<TextureAtlasSprite, Integer> stitched, int pageSize, int mipLevel) {
+        Map<ResourceLocation, Integer> pageByName = new HashMap<>();
+        for (Map.Entry<TextureAtlasSprite, Integer> entry : stitched.entrySet()) {
+            pageByName.put(entry.getKey().contents().name(), entry.getValue());
+        }
+        finishFusionSprites(regions, pageSize, mipLevel);
+        Map<TextureAtlasSprite, Integer> paged = new IdentityHashMap<>();
+        for (Map.Entry<ResourceLocation, TextureAtlasSprite> entry : regions.entrySet()) {
+            Integer page = pageByName.get(entry.getKey());
+            if (page == null) {
+                page = pageByName.get(entry.getValue().contents().name());
+            }
+            if (page != null) {
+                paged.put(entry.getValue(), page);
+            }
+        }
+        assignPages(paged);
+    }
+
+    private static void finishFusionSprites(Map<ResourceLocation, TextureAtlasSprite> regions, int pageSize, int mipLevel) {
+        Map<TextureAtlasSprite, Integer> savedPages = pages;
+        Map<ResourceLocation, Integer> savedNames = pagesByName;
+        pages = Map.of();
+        pagesByName = Map.of();
+        try {
+            Class<?> handler = Class.forName("com.supermartijn642.fusion.texture.TextureCreationHandler");
+            Method after = handler.getDeclaredMethod("afterLoadSprites", Map.class, int.class, int.class, Stitcher.class);
+            after.invoke(null, regions, pageSize, pageSize, new Stitcher<>(pageSize, pageSize, mipLevel));
+            int fusionSprites = 0;
+            for (TextureAtlasSprite sprite : regions.values()) {
+                String contents = sprite.contents().getClass().getName();
+                if (contents.startsWith("com.supermartijn642.fusion.texture.Fusion")) {
+                    fusionSprites++;
+                }
+            }
+            if (fusionSprites > 0) {
+                LOGGER.info("Built {} Fusion sprites on the paged block atlas", fusionSprites);
+            }
+        } catch (ClassNotFoundException exception) {
+            // Fusion is not installed. The stitched sprites are already the ones the atlas uses.
+        } catch (ReflectiveOperationException exception) {
+            LOGGER.warn("Could not finish Fusion connected textures on the paged block atlas", exception);
+        } finally {
+            pages = savedPages;
+            pagesByName = savedNames;
+        }
+    }
+
     private static void assignPages(Map<TextureAtlasSprite, Integer> builtPages) {
         Map<ResourceLocation, Integer> names = new HashMap<>();
         for (Map.Entry<TextureAtlasSprite, Integer> entry : builtPages.entrySet()) {
@@ -1063,7 +1179,7 @@ public final class BlockAtlasPages {
             builtPages.put(sprite, placement.page());
             regions.put(contents.name(), sprite);
         }
-        assignPages(builtPages);
+        sealPages(regions, builtPages, pageSize, mipLevel);
         warnedPageLimit = false;
         LOGGER.info("Placed {} block sprites from the disk cache onto {} page(s) of {}x{}", regions.size(), hit.pages(), pageSize, pageSize);
         return ready(location, pageSize, mipLevel, regions, executor);

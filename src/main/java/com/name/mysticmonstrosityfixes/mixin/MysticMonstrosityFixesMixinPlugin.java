@@ -69,6 +69,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.faktocraft.client.FaktocraftClient",
                     "com.faktocraft.common.cover.CoverSupport",
                     "com.faktocraft.client.model.CoverBakedModel"}),
+            Map.entry("GuiScaleClickFix", new String[]{
+                    "com.misanthropy.gui_scale_additions.Client"}),
             Map.entry("FTBLibraryNullFix", new String[]{
                     "dev.ftb.mods.ftblibrary.integration.forge.JEIIntegration",
                     "dev.ftb.mods.ftblibrary.util.client.PositionedIngredient",
@@ -113,6 +115,10 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "net.darkhax.botanypots.BotanyPotHelper"}),
             Map.entry("SplitModelHandlerAccessor", new String[]{
                     "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
+            Map.entry("SlateContainerInputFix", new String[]{
+                    "dev.fallingcloud.slate.core.port.gui.AbstractContainerWidget"}),
+            Map.entry("SlateStageClickFocusFix", new String[]{
+                    "dev.fallingcloud.slate.core.stage.Stage"}),
             Map.entry("SoLCarrotFoodsNullFix", new String[]{
                     "com.cazsius.solcarrot.client.FoodItems"}),
             Map.entry("SolarCraftShaderLoadCrashFix", new String[]{

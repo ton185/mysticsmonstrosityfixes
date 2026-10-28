@@ -65,15 +65,16 @@ public final class BlockAtlasShaderPatch {
             vec3 mmf_blockAtlasUv(vec2 uv) {
                 return vec3(uv.x - floor(uv.x), uv.y, floor(uv.x));
             }
+            uniform float MmfAtlasBound;
             vec4 mmf_blockAtlasSample(vec2 uv) {
                 vec4 onPage = texture(MmfPages, mmf_blockAtlasUv(uv));
                 vec4 onBase = texture(Sampler0, uv);
-                return mix(onBase, onPage, step(1.0, uv.x));
+                return mix(onBase, onPage, step(1.0, uv.x) * MmfAtlasBound);
             }
             vec4 mmf_blockAtlasSampleLod(vec2 uv, float lod) {
                 vec4 onPage = textureLod(MmfPages, mmf_blockAtlasUv(uv), lod);
                 vec4 onBase = textureLod(Sampler0, uv, lod);
-                return mix(onBase, onPage, step(1.0, uv.x));
+                return mix(onBase, onPage, step(1.0, uv.x) * MmfAtlasBound);
             }
             """;
 
@@ -137,9 +138,12 @@ public final class BlockAtlasShaderPatch {
     }
 
     /**
-     * Entity, item, cutout, translucent, and GUI draws bind the block atlas or some other 2D texture
-     * to the same Sampler0. A chest atlas, a fluid sheet, a gas texture, and a JEI icon are not the
-     * block atlas. Glint scrolls U past 1 on its own texture, and shadow clamps U, so those stay 2D.
+     * Entity, item, cutout, translucent, fluid, menu blit, and the menu stage shader bind the block
+     * atlas or some other 2D texture to the same Sampler0. A chest atlas, a gas texture, and a JEI item
+     * icon are not the block atlas. A JEI fluid slot is: it binds the block atlas, then draws with
+     * {@code position_tex_color}. Glint scrolls U past 1 on its own texture, and shadow clamps U, so those
+     * stay 2D. The page sample is multiplied by {@code MmfAtlasBound}, which is 1 only while Sampler0
+     * is the block atlas, so a repeating menu strip keeps the texture it bound.
      */
     public static boolean isSharedAtlasShader(String name) {
         if (name == null) {
@@ -149,7 +153,7 @@ public final class BlockAtlasShaderPatch {
         if (simple.contains("glint") || simple.contains("shadow") || simple.contains("armor")
                 || simple.contains("eyes") || simple.contains("energy") || simple.contains("leash")
                 || simple.contains("beacon") || simple.contains("lightning") || simple.contains("text")
-                || simple.contains("particle")) {
+                || simple.contains("particle") || simple.contains("gui")) {
             return false;
         }
         if (simple.contains("outline") && !simple.contains("no_outline")) {
@@ -161,7 +165,8 @@ public final class BlockAtlasShaderPatch {
                 || simple.contains("rendertype_translucent")
                 || simple.contains("rendertype_cutout")
                 || simple.contains("rendertype_tripwire")
-                || simple.contains("position_tex");
+                || simple.contains("position_tex")
+                || simple.contains("fluid");
     }
 
     /**

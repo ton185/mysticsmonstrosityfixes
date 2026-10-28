@@ -32,8 +32,11 @@
     "AtmosphereShaderCompileFix",
     "CapsulePreviewCrashFix",
     "FTBLibraryNullFix",
+    "GuiScaleClickFix",
     "JITLClientEssenceNullFix",
     "JITLDeathCrashFix",
+    "SlateContainerInputFix",
+    "SlateStageClickFocusFix",
     "SolarCraftShaderLoadCrashFix",
     "SoLCarrotFoodsNullFix"
   ],

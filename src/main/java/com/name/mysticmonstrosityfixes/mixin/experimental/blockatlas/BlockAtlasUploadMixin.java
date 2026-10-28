@@ -1,5 +1,6 @@
 package com.name.mysticmonstrosityfixes.mixin.experimental.blockatlas;
 
+import com.name.mysticmonstrosityfixes.BlockAtlasPageCache;
 import com.name.mysticmonstrosityfixes.BlockAtlasPages;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
@@ -84,7 +85,8 @@ public abstract class BlockAtlasUploadMixin extends AbstractTexture {
         for (TextureAtlasSprite sprite : preparations.regions().values()) {
             contents.add(sprite.contents());
             int page = BlockAtlasPages.pageOf(sprite);
-            if (!uploaded) {
+            // A cached page has the vanilla frame. Fusion tiles upload a different rectangle of the sheet.
+            if (!uploaded || !BlockAtlasPageCache.storesSprite(sprite.contents())) {
                 BlockAtlasPages.beginLayer(page);
                 try {
                     sprite.uploadFirstFrame();

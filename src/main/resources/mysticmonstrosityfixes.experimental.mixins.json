@@ -20,6 +20,7 @@
     "blockatlas.BlockAtlasShaderBindMixin",
     "blockatlas.BlockAtlasShaderSourceMixin",
     "blockatlas.BlockAtlasSpriteUvMixin",
+    "blockatlas.SpriteFinderPageMixin",
     "blockatlas.BlockAtlasStitcherMixin",
     "blockatlas.BlockAtlasStitchMixin",
     "blockatlas.BlockAtlasUploadMixin",

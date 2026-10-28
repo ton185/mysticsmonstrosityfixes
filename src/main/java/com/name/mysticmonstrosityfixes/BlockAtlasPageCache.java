@@ -184,6 +184,19 @@ public final class BlockAtlasPageCache {
         }
     }
 
+    /**
+     * The cache copies the top of the original image at the sprite's frame size. Vanilla frames sit
+     * in that rectangle. A Fusion sheet is a different size, and each tile uploads its own rectangle,
+     * so those sprites are left out of the cache and uploaded on their own.
+     */
+    public static boolean storesSprite(SpriteContents contents) {
+        if (contents.getClass() != SpriteContents.class) {
+            return false;
+        }
+        NativeImage image = contents.getOriginalImage();
+        return image.getWidth() == contents.width() && image.getHeight() >= contents.height();
+    }
+
     public static Path pageFile(int page) {
         return directory().resolve("blocks-page-" + page + ".rgba");
     }
@@ -204,6 +217,9 @@ public final class BlockAtlasPageCache {
             ByteBuffer row = ByteBuffer.allocateDirect(pageSize * 4);
             for (Placed sprite : placed) {
                 if (sprite.page() != page) {
+                    continue;
+                }
+                if (!storesSprite(sprite.contents())) {
                     continue;
                 }
                 NativeImage image = sprite.contents().getOriginalImage();
