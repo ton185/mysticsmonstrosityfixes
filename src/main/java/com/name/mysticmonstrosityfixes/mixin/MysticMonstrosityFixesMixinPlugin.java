@@ -117,8 +117,14 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
             Map.entry("SlateContainerInputFix", new String[]{
                     "dev.fallingcloud.slate.core.port.gui.AbstractContainerWidget"}),
+            Map.entry("SlateCubePlanetLoadFix", new String[]{
+                    "dev.fallingcloud.slate.core.stage.node.CubePlanetNode"}),
+            Map.entry("SlateMeshedBlocksLoadFix", new String[]{
+                    "dev.fallingcloud.slate.core.stage.node.MeshedBlocksNode"}),
             Map.entry("SlateStageClickFocusFix", new String[]{
                     "dev.fallingcloud.slate.core.stage.Stage"}),
+            Map.entry("SlateTerrainLoadFix", new String[]{
+                    "dev.fallingcloud.slate.core.stage.node.TerrainNode"}),
             Map.entry("SoLCarrotFoodsNullFix", new String[]{
                     "com.cazsius.solcarrot.client.FoodItems"}),
             Map.entry("SolarCraftShaderLoadCrashFix", new String[]{

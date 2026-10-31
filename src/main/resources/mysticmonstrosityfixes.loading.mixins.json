@@ -21,6 +21,9 @@
     "FaktocraftCoverBakeFix",
     "ImmersiveConvergenceBakeFix",
     "ModernFixCoverBakeFix",
+    "SlateCubePlanetLoadFix",
+    "SlateMeshedBlocksLoadFix",
+    "SlateTerrainLoadFix",
     "SplitModelHandlerAccessor",
     "VoltexCoverBakeFix",
     "VoltexDynamicCoverFix"
