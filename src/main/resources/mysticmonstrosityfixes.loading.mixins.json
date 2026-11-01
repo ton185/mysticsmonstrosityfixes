@@ -21,6 +21,7 @@
     "FaktocraftCoverBakeFix",
     "ImmersiveConvergenceBakeFix",
     "ModernFixCoverBakeFix",
+    "ModernFixDynamicModelDrainFix",
     "SlateCubePlanetLoadFix",
     "SlateMeshedBlocksLoadFix",
     "SlateTerrainLoadFix",

@@ -105,6 +105,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.faktocraft.client.model.CoverBakedModel",
                     "com.faktocraft.common.cover.CoverSupport",
                     "com.faktocraft.common.registries.ModBlocks"}),
+            Map.entry("ModernFixDynamicModelDrainFix", new String[]{
+                    "org.embeddedt.modernfix.dynamicresources.DynamicBakedModelProvider"}),
             Map.entry("MixinSoulslikeWeaponryLoadCheck", new String[]{
                     "net.soulsweaponry.util.WeaponUtil"}),
             Map.entry("MovingElevatorsCabinCLCompat", new String[]{
