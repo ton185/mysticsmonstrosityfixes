@@ -17,7 +17,6 @@
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
     "MinecontrollersSkullRegisterFix",
-    "MixinHelperMissingSideFieldFix",
     "MovingElevatorsCabinCLCompat",
     "PlaceableBambooSoilFix",
     "PlaceableBigDripleafSoilFix",
@@ -28,7 +27,6 @@
     "SpeciesAccessor"
   ],
   "client": [
-    "Ae2ltJeiRecipeTransferFix",
     "AtmosphereShaderCompileFix",
     "CapsulePreviewCrashFix",
     "FTBLibraryNullFix",

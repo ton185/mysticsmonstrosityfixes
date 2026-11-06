@@ -146,7 +146,7 @@ public final class BlockAtlasShaderPatch {
      * is the block atlas, so a repeating menu strip keeps the texture it bound.
      */
     public static boolean isSharedAtlasShader(String name) {
-        if (name == null) {
+        if (name == null || name.contains("journeymap:")) {
             return false;
         }
         String simple = simpleName(name);
