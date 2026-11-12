@@ -142,6 +142,13 @@ repositories {
     //     dir 'libs'
     // }
     maven { url = "https://cursemaven.com" }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 def urlFile = { url, name ->
@@ -166,55 +173,52 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // These can be made compile only I think
-    implementation fg.deobf("curse.maven:jei-238222:7361881")
-    implementation fg.deobf("curse.maven:ftb-library-forge-404465:6016763")
-    implementation fg.deobf("curse.maven:codechicken-lib-1-8-242818:5753868")
-    implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
-    implementation fg.deobf("curse.maven:journey-into-the-light-mod-354673:5826323")
-    implementation fg.deobf("curse.maven:blood-magic-224791:5290993")
-    implementation fg.deobf("curse.maven:curios-309927:6058834")
-    implementation fg.deobf("curse.maven:mo-shiz-mod-62536:5587177")
-    implementation fg.deobf("curse.maven:inventory-pets-229380:5776970")
-    implementation fg.deobf("curse.maven:krypton-reforged-549394:4606534")
-    implementation fg.deobf("curse.maven:patchouli-306770:6164575")
-    implementation fg.deobf("curse.maven:architectury-api-419699:5137938")
-    implementation fg.deobf("curse.maven:geckolib-388172:6027567")
-    implementation fg.deobf("curse.maven:packet-fixer-689467:6017829")
-    implementation fg.deobf("curse.maven:solar-forge-479100:5255888")
-    implementation fg.deobf("curse.maven:eidolon-repraised-870250:7674316")
-    implementation fg.deobf("curse.maven:capsule-235338:5032489")
-    implementation fg.deobf("curse.maven:mariums-soulslike-weaponry-632066:8169896")
-    implementation fg.deobf("curse.maven:botany-pots-353928:7612402")
-    implementation fg.deobf("curse.maven:powerpots-unofficial-port-1497444:8035144")
-    implementation fg.deobf("curse.maven:bookshelf-228525:7612389")
-    implementation fg.deobf("curse.maven:immersive-portals-for-forge-355440:6368524")
-    implementation fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
-    implementation fg.deobf("curse.maven:embers-rekindled-300777:7446478")
-    implementation fg.deobf("curse.maven:lodestone-616457:6213794")
-    implementation fg.deobf("curse.maven:dynamictrees-252818:8227003")
-    implementation fg.deobf("curse.maven:dynamictreesplus-478155:7502535")
-    implementation fg.deobf("curse.maven:moving-elevators-373051:7600461")
-    implementation fg.deobf("curse.maven:supermartijn642s-config-lib-438332:4715408")
-    implementation fg.deobf("curse.maven:supermartijn642s-core-lib-454372:8943195")
-    implementation fg.deobf("curse.maven:embeddium-908741:5681725")
-    implementation fg.deobf("curse.maven:colorful-lighting-sodium-1373023:8581227")
-    implementation fg.deobf("curse.maven:guideme-1173950:8204776")
-    implementation fg.deobf("curse.maven:cloth-config-348521:5729105")
-    implementation fg.deobf("curse.maven:attributefix-280510:7612291")
-    def packMods = file("C:/Users/Ethan/curseforge/minecraft/Instances/Mystic's Monstrosity - Immersive Edition/mods")
-    compileOnly fg.deobf(files(
-            new File(packMods, "mixinhelper-1.1.2-forge-1.20.1.jar"),
-            new File(packMods, "minecontrollers-2.3.2.jar"),
-            new File(packMods, "Jade-1.20.1-Forge-11.13.3.jar"),
-            new File(packMods, "faktocraft-1.20.1-1.0.2.jar"),
-            new File(packMods, "modernfix-forge-5.27.91+mc1.20.1.jar"),
-            new File(packMods, "ImmersiveConvergence-1.20.1-1.0.0-b96-release.jar"),
-            new File(packMods, "alexsmobs-2.2.4-forge+1.20.1.jar"),
-            new File(packMods, "Voltex-3.0.4.jar"),
-            new File(packMods, "ae2lt-forge-1.20.1-2.1.3.jar"),
-            new File(packMods, "jei-1.20.1-forge-15.74.0.229.jar"),
-            new File(packMods, "slate-core-forge-1.20.1-1.1.0.jar")
-    ))
+    compileOnly fg.deobf("curse.maven:jei-238222:9394360")
+    compileOnly fg.deobf("curse.maven:ftb-library-forge-404465:6016763")
+    compileOnly fg.deobf("curse.maven:codechicken-lib-1-8-242818:5753868")
+    compileOnly fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
+    compileOnly fg.deobf("curse.maven:journey-into-the-light-mod-354673:5826323")
+    compileOnly fg.deobf("curse.maven:blood-magic-224791:5290993")
+    compileOnly fg.deobf("curse.maven:curios-309927:6058834")
+    compileOnly fg.deobf("curse.maven:mo-shiz-mod-62536:5587177")
+    compileOnly fg.deobf("curse.maven:inventory-pets-229380:5776970")
+    compileOnly fg.deobf("curse.maven:krypton-reforged-549394:4606534")
+    compileOnly fg.deobf("curse.maven:patchouli-306770:6164575")
+    compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
+    compileOnly fg.deobf("curse.maven:geckolib-388172:6027567")
+    compileOnly fg.deobf("curse.maven:packet-fixer-689467:6017829")
+    compileOnly fg.deobf("curse.maven:solar-forge-479100:5255888")
+    compileOnly fg.deobf("curse.maven:eidolon-repraised-870250:7674316")
+    compileOnly fg.deobf("curse.maven:capsule-235338:5032489")
+    compileOnly fg.deobf("curse.maven:mariums-soulslike-weaponry-632066:8169896")
+    compileOnly fg.deobf("curse.maven:botany-pots-353928:7612402")
+    compileOnly fg.deobf("curse.maven:powerpots-unofficial-port-1497444:8035144")
+    compileOnly fg.deobf("curse.maven:bookshelf-228525:7612389")
+    compileOnly fg.deobf("curse.maven:immersive-portals-for-forge-355440:6368524")
+    compileOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
+    compileOnly fg.deobf("curse.maven:embers-rekindled-300777:7446478")
+    compileOnly fg.deobf("curse.maven:lodestone-616457:6213794")
+    compileOnly fg.deobf("curse.maven:dynamictrees-252818:8227003")
+    compileOnly fg.deobf("curse.maven:dynamictreesplus-478155:7502535")
+    compileOnly fg.deobf("curse.maven:moving-elevators-373051:7600461")
+    compileOnly fg.deobf("curse.maven:supermartijn642s-config-lib-438332:4715408")
+    compileOnly fg.deobf("curse.maven:supermartijn642s-core-lib-454372:8943195")
+    compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+    compileOnly fg.deobf("curse.maven:colorful-lighting-sodium-1373023:8581227")
+    compileOnly fg.deobf("curse.maven:guideme-1173950:8204776")
+    compileOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
+    compileOnly fg.deobf("curse.maven:attributefix-280510:7612291")
+    compileOnly fg.deobf("curse.maven:mixin-helper-1492883:9236652")
+    compileOnly fg.deobf("curse.maven:minecontrollers-1331820:7356682")
+    compileOnly fg.deobf("curse.maven:jade-324717:8479276")
+    compileOnly fg.deobf("curse.maven:faktocraft-1675352:9352785")
+    compileOnly fg.deobf("curse.maven:modernfix-790626:9544538")
+    compileOnly fg.deobf("curse.maven:voltex-1579019:9508550")
+    compileOnly fg.deobf("curse.maven:ae2-lightning-tech-1527395:9480274")
+    // CurseForge does not allow these two to be redistributed. The version id is the Modrinth file for the pack jar.
+    compileOnly fg.deobf("maven.modrinth:immersive-convergence:cYo2xHsc")
+    compileOnly fg.deobf("maven.modrinth:alexs-mobs-continued:4XgJvIvI")
+    compileOnly fg.deobf("curse.maven:slate-core-1733211:9186988")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")

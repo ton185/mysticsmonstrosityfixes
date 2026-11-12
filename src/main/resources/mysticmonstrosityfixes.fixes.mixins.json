@@ -8,6 +8,8 @@
   "mixins": [
     "AetherCMEFixMixin",
     "BloodMagicNullCapabilityFix",
+    "CreativeFlightGrantMixin",
+    "CreativeFlightToggleMixin",
     "DimensionIdManagementMixin",
     "DimensionIdRecordAccessor",
     "EntityTypeCategoryAccessor",
