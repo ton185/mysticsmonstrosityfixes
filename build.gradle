@@ -268,10 +268,48 @@ tasks.named('jar', Jar).configure {
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")])
     }
 
+    // packageMixinRefmap runs after compileJava, once the annotation processor
+    // has written the refmap. Putting the file in this copy spec directly made
+    // Gradle look for it while resolving :jar, before that compile.
+    dependsOn 'packageMixinRefmap'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(layout.buildDirectory.dir('generated/mixin-refmap'))
+
     // This is the preferred method to reobfuscate your jar file
     finalizedBy 'reobfJar'
 }
 
+// MixinGradle deletes the refmap at the start of compileJava and writes it back
+// only when the annotation processor runs. That file is not a compile output, so
+// an up-to-date compile left the production jar without it and accessors looked
+// up official names. Copy.from of a missing file is NO-SOURCE, which hid the gap.
+def mixinRefmap = layout.buildDirectory.file("tmp/compileJava/${mod_id}.refmap.json")
+def packagedMixinRefmap = layout.buildDirectory.file("generated/mixin-refmap/${mod_id}.refmap.json")
+
+afterEvaluate {
+    tasks.named('compileJava', JavaCompile).configure {
+        outputs.file(mixinRefmap)
+        doLast {
+            if (!mixinRefmap.get().asFile.isFile()) {
+                throw new GradleException("Mixin annotation processor did not write ${mixinRefmap.get().asFile}")
+            }
+        }
+    }
+}
+
+tasks.register('packageMixinRefmap') {
+    dependsOn 'compileJava'
+    inputs.file(mixinRefmap)
+    outputs.file(packagedMixinRefmap)
+    doLast {
+        def source = mixinRefmap.get().asFile
+        def dest = packagedMixinRefmap.get().asFile
+        dest.parentFile.mkdirs()
+        java.nio.file.Files.copy(source.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    options.incremental = false
 }
