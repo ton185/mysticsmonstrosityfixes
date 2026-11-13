@@ -9,6 +9,7 @@
     "AetherCMEFixMixin",
     "BloodMagicNullCapabilityFix",
     "CreativeFlightGrantMixin",
+    "CreativeFlightHoverMixin",
     "CreativeFlightToggleMixin",
     "DimensionIdManagementMixin",
     "DimensionIdRecordAccessor",
@@ -31,6 +32,8 @@
   "client": [
     "AtmosphereShaderCompileFix",
     "CapsulePreviewCrashFix",
+    "CreativeFlightAbilitiesMixin",
+    "CreativeFlightClientMixin",
     "FTBLibraryNullFix",
     "GuiScaleClickFix",
     "JITLClientEssenceNullFix",

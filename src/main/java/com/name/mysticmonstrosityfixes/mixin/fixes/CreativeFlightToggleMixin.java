@@ -2,6 +2,7 @@ package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.name.mysticmonstrosityfixes.flight.CreativeFlightGrants;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerAbilitiesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -27,6 +28,13 @@ public class CreativeFlightToggleMixin {
             this.player.getAbilities().mayfly = true;
         }
         CreativeFlightGrants.rememberToggle(this.player, packet.isFlying());
+    }
+
+    @Inject(method = "handleMovePlayer", at = @At("HEAD"))
+    private void mysticmonstrosityfixes$keepFlightForMove(ServerboundMovePlayerPacket packet, CallbackInfo ci) {
+        if (this.player != null) {
+            CreativeFlightGrants.allowMovement(this.player);
+        }
     }
 
     @Inject(method = "onDisconnect", at = @At("HEAD"))

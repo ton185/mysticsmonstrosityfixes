@@ -88,13 +88,86 @@ public final class CreativeFlightGrants {
         }
     }
 
+    /**
+     * The move packet is handled before the player tick, which is where {@link #keep} puts flight back.
+     * A granted player who is already flying has to count as flying for that check, or a hover is treated
+     * as a fall.
+     */
+    public static void allowMovement(ServerPlayer player) {
+        boolean creative = player.isCreative() || player.isSpectator();
+        boolean granted = granted(player);
+        if (!creative && !granted) {
+            return;
+        }
+        Abilities abilities = player.getAbilities();
+        if (!abilities.mayfly) {
+            abilities.mayfly = true;
+        }
+        State state = STATES.get(player.getUUID());
+        if (granted && state != null && state.flying && !abilities.flying) {
+            abilities.flying = true;
+        }
+    }
+
     public static void rememberToggle(ServerPlayer player, boolean flying) {
         if (!granted(player) && !player.isCreative() && !player.isSpectator()) {
             return;
         }
         State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
         state.flying = flying;
+        state.clientMayfly = player.getAbilities().mayfly || flying;
+        state.clientKnown = true;
         state.toggledThisTick = true;
+    }
+
+    /**
+     * The client copy of the abilities packet, or the local toggle that sends one.
+     * Other mods clear {@code flying} again before movement when jump is not held.
+     */
+    public static void rememberClient(Player player, boolean mayfly, boolean flying) {
+        State state = STATES.computeIfAbsent(player.getUUID(), id -> new State());
+        state.clientMayfly = mayfly;
+        state.flying = flying;
+        state.clientKnown = true;
+    }
+
+    /**
+     * Granted creative flight should hover the way vanilla creative flight does.
+     * Returns true when this client player is in that flight and it should be put back before movement.
+     */
+    public static boolean hover(Player player) {
+        if (player.isSpectator() || player.isPassenger() || player.isFallFlying()) {
+            return false;
+        }
+        if (!player.level().isClientSide() || !player.isControlledByLocalInstance()) {
+            return false;
+        }
+        boolean granted = hasModGrant(player);
+        if (player.isCreative() && !granted) {
+            return false;
+        }
+        Abilities abilities = player.getAbilities();
+        State state = STATES.get(player.getUUID());
+        boolean mayfly = abilities.mayfly || granted || (state != null && state.clientMayfly);
+        if (!mayfly) {
+            return false;
+        }
+        if (state != null && (state.clientKnown || state.granted || granted)) {
+            return state.flying;
+        }
+        return abilities.flying;
+    }
+
+    public static void restoreHover(Player player) {
+        if (!hover(player)) {
+            return;
+        }
+        Abilities abilities = player.getAbilities();
+        abilities.mayfly = true;
+        abilities.flying = true;
+        if (abilities.getFlyingSpeed() <= 0.0F) {
+            abilities.setFlyingSpeed(VANILLA_FLYING_SPEED);
+        }
     }
 
     public static void forget(ServerPlayer player) {
@@ -198,5 +271,7 @@ public final class CreativeFlightGrants {
         private boolean granted;
         private boolean flying;
         private boolean toggledThisTick;
+        private boolean clientMayfly;
+        private boolean clientKnown;
     }
 }
