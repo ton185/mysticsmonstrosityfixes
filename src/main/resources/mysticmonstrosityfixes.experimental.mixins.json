@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "com.name.mysticmonstrosityfixes.mixin.experimental",
   "compatibilityLevel": "JAVA_17",
@@ -28,6 +28,6 @@
     "blockatlas.TextureAtlasSpriteInvoker"
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   }
 }

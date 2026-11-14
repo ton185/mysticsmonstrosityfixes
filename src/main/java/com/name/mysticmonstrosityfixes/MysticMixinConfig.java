@@ -57,6 +57,8 @@ public final class MysticMixinConfig {
                 "LodestoneMixin");
         option("mixin.fixes.modernfix_dynamic_model_drain_fix", true,
                 "ModernFixDynamicModelDrainFix");
+        option("mixin.fixes.multiplayer_rejoin_leak", true,
+                "ClientPacketListenerLeakFix", "MinecraftClearLevelLeakFix");
         option("mixin.fixes.soulslike_weaponry_load_check", true,
                 "MixinSoulslikeWeaponryLoadCheck");
         option("mixin.fixes.voltex_covers", true,
@@ -80,6 +82,8 @@ public final class MysticMixinConfig {
                 "EverlastingAbilitiesAttributeFix");
         option("mixin.fixes.flib_potion_effect_race", true,
                 "FLibPotionEffectRaceFix", "MobEffectInstanceAccessor");
+        option("mixin.fixes.forge_registry_alias_sync", true,
+                "ForgeRegistryAliasSyncFix");
         option("mixin.fixes.ftb_library_null", true,
                 "FTBLibraryNullFix");
         option("mixin.fixes.gui_scale_click", true,
