@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;

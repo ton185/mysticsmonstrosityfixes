@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import capsule.enchantments.RecallEnchant;
 import net.minecraftforge.event.TickEvent;

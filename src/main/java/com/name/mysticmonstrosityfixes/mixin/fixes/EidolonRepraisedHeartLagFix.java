@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import elucent.eidolon.client.ClientRegistry;
 import net.minecraft.client.gui.GuiGraphics;

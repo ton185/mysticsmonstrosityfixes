@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * GUI Scale Additions remembers the fine scale only when {@code setGuiScale} is handed the raw
- * auto scale. Slate's compact scale passes that value minus one, so the remembered value stays 0
+ * auto scale. The compact scale passes that value minus one, so the remembered value stays 0
  * while {@code guiScaleFine} is 30. Every mouse release then calls {@code resizeDisplay}, the open
  * screen is built again, and the option or text box that was just clicked is gone.
  */

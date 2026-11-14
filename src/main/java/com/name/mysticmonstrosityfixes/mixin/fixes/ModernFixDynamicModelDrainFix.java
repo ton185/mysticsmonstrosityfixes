@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.google.common.collect.Sets;
 import net.minecraft.client.resources.model.ModelBakery;

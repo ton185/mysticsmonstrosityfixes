@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import net.minecraft.world.item.crafting.Ingredient;
 import org.spongepowered.asm.mixin.Mixin;

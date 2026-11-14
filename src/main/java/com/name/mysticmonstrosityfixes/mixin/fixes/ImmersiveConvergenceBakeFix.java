@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.immersiveconvergence.api.client.split.SplitModelHandler;
 import net.minecraft.client.renderer.block.BlockModelShaper;

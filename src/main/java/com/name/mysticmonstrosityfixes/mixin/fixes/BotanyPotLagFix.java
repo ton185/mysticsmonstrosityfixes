@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.name.mysticmonstrosityfixes.botanypots.PotSyncCoalescer;
 import net.darkhax.bookshelf.api.util.WorldHelper;

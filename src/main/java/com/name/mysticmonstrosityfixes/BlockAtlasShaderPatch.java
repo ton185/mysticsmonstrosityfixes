@@ -116,13 +116,7 @@ public final class BlockAtlasShaderPatch {
             return;
         }
         SHARED.add(name);
-        String simple = simpleName(name);
-        SHARED.add(simple);
-        // The block stage shader is a second program that reuses this fragment. Its instance name
-        // is what bindSharedAtlas sees, and the fragment is compiled under the other name.
-        if ("slate_stage_soft".equals(simple)) {
-            SHARED.add("slate_stage_soft_block");
-        }
+        SHARED.add(simpleName(name));
     }
 
     public static void forgetShared(String name) {
@@ -130,11 +124,7 @@ public final class BlockAtlasShaderPatch {
             return;
         }
         SHARED.remove(name);
-        String simple = simpleName(name);
-        SHARED.remove(simple);
-        if ("slate_stage_soft".equals(simple)) {
-            SHARED.remove("slate_stage_soft_block");
-        }
+        SHARED.remove(simpleName(name));
     }
 
     /**
@@ -159,8 +149,7 @@ public final class BlockAtlasShaderPatch {
         if (simple.contains("outline") && !simple.contains("no_outline")) {
             return false;
         }
-        return simple.contains("slate_stage_soft")
-                || simple.contains("rendertype_entity")
+        return simple.contains("rendertype_entity")
                 || simple.contains("item_entity")
                 || simple.contains("rendertype_translucent")
                 || simple.contains("rendertype_cutout")

@@ -18,6 +18,9 @@ import net.minecraftforge.fml.common.Mod;
 public class IllageProjectileCategoryFix {
     @SubscribeEvent
     public static void onEntityAttributes(EntityAttributeCreationEvent event) {
+        if (!EntityTypeCategoryAccessor.class.isAssignableFrom(EntityType.class)) {
+            return;
+        }
         markMisc("Axe");
         markMisc("Bone");
     }

@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import net.minecraftforge.fml.ModList;

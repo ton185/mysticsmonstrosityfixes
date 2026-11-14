@@ -124,7 +124,6 @@ minecraft {
 mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
 
-    config "${mod_id}.loading.mixins.json"
     config "${mod_id}.fixes.mixins.json"
     config "${mod_id}.experimental.mixins.json"
 }
@@ -175,6 +174,9 @@ dependencies {
     // These can be made compile only I think
     compileOnly fg.deobf("curse.maven:jei-238222:9394360")
     compileOnly fg.deobf("curse.maven:ftb-library-forge-404465:6016763")
+    compileOnly fg.deobf("curse.maven:flib-661261:8070669")
+    compileOnly fg.deobf("curse.maven:everlastingabilities-248353:6543175")
+    compileOnly fg.deobf("curse.maven:bielggs-spells-addon-1591540:8859728")
     compileOnly fg.deobf("curse.maven:codechicken-lib-1-8-242818:5753868")
     compileOnly fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
     compileOnly fg.deobf("curse.maven:journey-into-the-light-mod-354673:5826323")
@@ -203,6 +205,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:moving-elevators-373051:7600461")
     compileOnly fg.deobf("curse.maven:supermartijn642s-config-lib-438332:4715408")
     compileOnly fg.deobf("curse.maven:supermartijn642s-core-lib-454372:8943195")
+    compileOnly fg.deobf("curse.maven:item-collectors-395620:7658618")
     compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     compileOnly fg.deobf("curse.maven:colorful-lighting-sodium-1373023:8581227")
     compileOnly fg.deobf("curse.maven:guideme-1173950:8204776")
@@ -218,7 +221,6 @@ dependencies {
     // CurseForge does not allow these two to be redistributed. The version id is the Modrinth file for the pack jar.
     compileOnly fg.deobf("maven.modrinth:immersive-convergence:cYo2xHsc")
     compileOnly fg.deobf("maven.modrinth:alexs-mobs-continued:4XgJvIvI")
-    compileOnly fg.deobf("curse.maven:slate-core-1733211:9186988")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")

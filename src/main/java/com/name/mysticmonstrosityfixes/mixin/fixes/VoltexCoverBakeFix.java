@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.jykito.industrialcore.client.ClientSetup;
 import com.name.mysticmonstrosityfixes.VoltexCoverHosts;

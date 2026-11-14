@@ -39,6 +39,12 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
             Map.entry("AlexsMobsGhostlyPickaxeBakeFix", new String[]{
                     "com.github.alexthe666.alexsmobs.ClientProxy",
                     "com.github.alexthe666.alexsmobs.client.render.item.GhostlyPickaxeBakedModel"}),
+            Map.entry("AxeSpellContainerFix", new String[]{
+                    "com.example.chaotic_world_content.spells.AxeSpellContainerEvents"}),
+            Map.entry("BielGGBrokenScriptRecursionFix", new String[]{
+                    "com.example.chaotic_world_content.brokenscript.BrokenScriptCloneEvents"}),
+            Map.entry("SwordSpellContainerFix", new String[]{
+                    "com.example.chaotic_world_content.spells.SwordSpellContainerEvents"}),
             Map.entry("BloodMagicNullCapabilityFix", new String[]{
                     "wayoftime.bloodmagic.compat.CuriosCompat",
                     "top.theillusivec4.curios.api.CuriosApi"}),
@@ -65,10 +71,14 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
             Map.entry("EmbersMixin", new String[]{
                     "com.rekindled.embers.EmbersClientEvents",
                     "qouteall.imm_ptl.core.render.context_management.PortalRendering"}),
+            Map.entry("EverlastingAbilitiesAttributeFix", new String[]{
+                    "org.cyclops.everlastingabilities.ability.AbilityTypeAttributeModifier"}),
             Map.entry("FaktocraftCoverBakeFix", new String[]{
                     "com.faktocraft.client.FaktocraftClient",
                     "com.faktocraft.common.cover.CoverSupport",
                     "com.faktocraft.client.model.CoverBakedModel"}),
+            Map.entry("FLibPotionEffectRaceFix", new String[]{
+                    "com.lothrazar.library.util.EntityUtil"}),
             Map.entry("GuiScaleClickFix", new String[]{
                     "com.misanthropy.gui_scale_additions.Client"}),
             Map.entry("FTBLibraryNullFix", new String[]{
@@ -85,6 +95,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "net.darkhax.botanypots.BotanyPotHelper"}),
             Map.entry("InventoryPetsNbtNullFix", new String[]{
                     "com.inventorypets.pets.petChest"}),
+            Map.entry("ItemCollectorBlockEntityMixin", new String[]{
+                    "com.supermartijn642.itemcollectors.CollectorBlockEntity"}),
             Map.entry("JITLClientEssenceNullFix", new String[]{
                     "net.jitl.client.essence.ClientEssence",
                     "net.jitl.common.capability.essence.PlayerEssenceProvider"}),
@@ -109,6 +121,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "org.embeddedt.modernfix.dynamicresources.DynamicBakedModelProvider"}),
             Map.entry("MixinSoulslikeWeaponryLoadCheck", new String[]{
                     "net.soulsweaponry.util.WeaponUtil"}),
+            Map.entry("MobEffectInstanceAccessor", new String[]{
+                    "com.lothrazar.library.util.EntityUtil"}),
             Map.entry("MovingElevatorsCabinCLCompat", new String[]{
                     "com.supermartijn642.movingelevators.elevator.ElevatorCabinLevel",
                     "me.erykczy.colorfullighting.api.CLWrapperAttachments",
@@ -117,16 +131,6 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "net.darkhax.botanypots.BotanyPotHelper"}),
             Map.entry("SplitModelHandlerAccessor", new String[]{
                     "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
-            Map.entry("SlateContainerInputFix", new String[]{
-                    "dev.fallingcloud.slate.core.port.gui.AbstractContainerWidget"}),
-            Map.entry("SlateCubePlanetLoadFix", new String[]{
-                    "dev.fallingcloud.slate.core.stage.node.CubePlanetNode"}),
-            Map.entry("SlateMeshedBlocksLoadFix", new String[]{
-                    "dev.fallingcloud.slate.core.stage.node.MeshedBlocksNode"}),
-            Map.entry("SlateStageClickFocusFix", new String[]{
-                    "dev.fallingcloud.slate.core.stage.Stage"}),
-            Map.entry("SlateTerrainLoadFix", new String[]{
-                    "dev.fallingcloud.slate.core.stage.node.TerrainNode"}),
             Map.entry("SoLCarrotFoodsNullFix", new String[]{
                     "com.cazsius.solcarrot.client.FoodItems"}),
             Map.entry("SolarCraftShaderLoadCrashFix", new String[]{

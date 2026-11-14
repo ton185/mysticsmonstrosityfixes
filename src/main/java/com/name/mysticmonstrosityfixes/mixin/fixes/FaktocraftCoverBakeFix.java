@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import com.faktocraft.client.FaktocraftClient;
 import com.name.mysticmonstrosityfixes.FaktocraftCoverHosts;

@@ -1,8 +1,7 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
-import com.jykito.industrialcore.client.CoverModel;
-import com.jykito.industrialcore.client.GlassCtmModel;
-import com.name.mysticmonstrosityfixes.VoltexCoverHosts;
+import com.faktocraft.client.model.CoverBakedModel;
+import com.name.mysticmonstrosityfixes.FaktocraftCoverHosts;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -16,11 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 
 /**
- * Applies Voltex's cover and structural-glass wrappers when ModernFix bakes the model, instead of
- * during the bake event.
+ * ModernFix bakes a top-level model the first time it is looked up, so the bake event's key set
+ * is not the set of block models Faktocraft needs to wrap. Wrap a coverable block on that first
+ * lookup and keep the wrapped model for the next one.
  */
 @Mixin(value = DynamicBakedModelProvider.class, remap = false)
-public class VoltexDynamicCoverFix {
+public class ModernFixCoverBakeFix {
     @Shadow
     private Map<ResourceLocation, BakedModel> permanentOverrides;
 
@@ -30,25 +30,19 @@ public class VoltexDynamicCoverFix {
             cancellable = true,
             remap = false
     )
-    private void mysticmonstrosityfixes$wrapVoltex(Object key, CallbackInfoReturnable<BakedModel> callback) {
+    private void mysticmonstrosityfixes$wrapCover(Object key, CallbackInfoReturnable<BakedModel> callback) {
         if (!(key instanceof ModelResourceLocation model) || "inventory".equals(model.getVariant())) {
             return;
         }
         BakedModel baked = callback.getReturnValue();
-        if (baked == null || baked instanceof CoverModel || baked instanceof GlassCtmModel) {
+        if (baked == null || baked instanceof CoverBakedModel) {
             return;
         }
-        String namespace = model.getNamespace();
-        String path = model.getPath();
-        BakedModel wrapped = null;
-        if (VoltexCoverHosts.isGlass(namespace, path)) {
-            wrapped = new GlassCtmModel(baked);
-        } else if (VoltexCoverHosts.isCover(namespace, path)) {
-            wrapped = new CoverModel(baked);
-        }
-        if (wrapped == null) {
+        Boolean drilled = FaktocraftCoverHosts.drilledFlag(model.getNamespace(), model.getPath());
+        if (drilled == null) {
             return;
         }
+        CoverBakedModel wrapped = new CoverBakedModel(baked, drilled);
         this.permanentOverrides.put(model, wrapped);
         callback.setReturnValue(wrapped);
     }

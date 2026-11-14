@@ -1,4 +1,4 @@
-package com.name.mysticmonstrosityfixes.mixin.loading;
+package com.name.mysticmonstrosityfixes.mixin.fixes;
 
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.ModList;
