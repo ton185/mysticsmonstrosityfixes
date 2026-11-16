@@ -22,6 +22,7 @@
     "JadeEnumPluginLoadFix",
     "JITLOfflineCrashFix",
     "KryptonReforgedVarIntFix",
+    "LivingEntityRemoveAllEffectsCMEFix",
     "MinecontrollersSkullRegisterFix",
     "MobEffectInstanceAccessor",
     "MovingElevatorsCabinCLCompat",

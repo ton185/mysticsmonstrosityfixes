@@ -110,6 +110,8 @@ public final class MysticMixinConfig {
                 "MinecontrollersSkullRegisterFix");
         option("mixin.fixes.moving_elevators_cabin_cl", true,
                 "MovingElevatorsCabinCLCompat");
+        option("mixin.fixes.remove_all_effects_cme", true,
+                "LivingEntityRemoveAllEffectsCMEFix");
         option("mixin.fixes.placeable_bamboo_soil", true,
                 "PlaceableBambooSoilFix");
         option("mixin.fixes.placeable_big_dripleaf_soil", true,
@@ -133,6 +135,13 @@ public final class MysticMixinConfig {
                 "Enable the experimental boot resource cache mixins. Changes require a game restart.");
         option("mixin.experimental.blockatlas", "mixin.experimental.blockatlas", true,
                 "Enable the experimental block atlas mixins. Changes require a game restart.");
+
+        option("mixin.tweaks", "mixin.tweaks.enabled", false,
+                "Master switch for tweaks. Changes require a game restart.");
+        option("mixin.tweaks.everlasting_abilities_uncap", "mixin.tweaks.everlasting_abilities_uncap", true,
+                "Let Everlasting Abilities exceed the max level of abilities whose max level is above one, except Resistance. Changes require a game restart.",
+                "EverlastingAbilitiesUncapTweak", "EverlastingAbilitiesCommandUncapTweak",
+                "EverlastingAbilitiesAttributeTweak", "EverlastingAbilitiesTooltipTweak");
     }
 
     private MysticMixinConfig() {
@@ -155,7 +164,8 @@ public final class MysticMixinConfig {
                 LOGGER.info("Migrated mixin options from {} to {}; the old file can be removed", legacy, file);
             }
         }
-        LOGGER.info("Mixin options loaded from {} (experimental={})", file, OPTIONS.get("mixin.experimental"));
+        LOGGER.info("Mixin options loaded from {} (experimental={}, tweaks={})",
+                file, OPTIONS.get("mixin.experimental"), OPTIONS.get("mixin.tweaks"));
     }
 
     /**
@@ -213,6 +223,9 @@ public final class MysticMixinConfig {
         }
         if (relative.startsWith("experimental.")) {
             return "mixin.experimental";
+        }
+        if (relative.startsWith("tweaks.")) {
+            return "mixin.tweaks";
         }
         return null;
     }

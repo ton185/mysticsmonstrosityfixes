@@ -1,5 +1,6 @@
 package com.name.mysticmonstrosityfixes.mixin.fixes;
 
+import com.name.mysticmonstrosityfixes.tweaks.EverlastingAbilitiesUncapper;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -50,7 +51,8 @@ public abstract class EverlastingAbilitiesAttributeFix {
         if (player.level().isClientSide) {
             return;
         }
-        AttributeModifier modifier = this.attributeModifiers.get(level);
+        AttributeModifier modifier = EverlastingAbilitiesUncapper.modifierForLevel(
+                (AbilityTypeAttributeModifier) (Object) this, level, this.attributeModifiers);
         if (modifier == null) {
             return;
         }
@@ -91,7 +93,8 @@ public abstract class EverlastingAbilitiesAttributeFix {
         }
         this.mysticmonstrosityfixes$removeStale(instance, null);
         if (newLevel > 0) {
-            AttributeModifier modifier = this.attributeModifiers.get(newLevel);
+            AttributeModifier modifier = EverlastingAbilitiesUncapper.modifierForLevel(
+                    (AbilityTypeAttributeModifier) (Object) this, newLevel, this.attributeModifiers);
             if (modifier != null) {
                 instance.addPermanentModifier(modifier);
             }

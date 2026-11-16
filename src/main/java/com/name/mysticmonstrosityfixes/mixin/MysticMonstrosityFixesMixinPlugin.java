@@ -119,6 +119,15 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "qouteall.imm_ptl.core.render.context_management.PortalRendering"}),
             Map.entry("EverlastingAbilitiesAttributeFix", new String[]{
                     "org.cyclops.everlastingabilities.ability.AbilityTypeAttributeModifier"}),
+            Map.entry("EverlastingAbilitiesAttributeTweak", new String[]{
+                    "org.cyclops.everlastingabilities.ability.AbilityTypeAttributeModifier"}),
+            Map.entry("EverlastingAbilitiesCommandUncapTweak", new String[]{
+                    "org.cyclops.everlastingabilities.command.CommandModifyAbilities"}),
+            Map.entry("EverlastingAbilitiesTooltipTweak", new String[]{
+                    "org.cyclops.everlastingabilities.client.gui.ContainerScreenAbilityContainer",
+                    "org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended"}),
+            Map.entry("EverlastingAbilitiesUncapTweak", new String[]{
+                    "org.cyclops.everlastingabilities.api.capability.DefaultMutableAbilityStore"}),
             Map.entry("FaktocraftCoverBakeFix", new String[]{
                     "com.faktocraft.client.FaktocraftClient",
                     "com.faktocraft.common.cover.CoverSupport",
