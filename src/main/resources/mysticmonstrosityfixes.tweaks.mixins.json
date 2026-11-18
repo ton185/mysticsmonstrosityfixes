@@ -6,6 +6,8 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "plugin": "com.name.mysticmonstrosityfixes.mixin.MysticMonstrosityFixesMixinPlugin",
   "mixins": [
+    "AllTheImbaiumSupplyDataTweak",
+    "AllTheImbaiumSupplyEventsTweak",
     "EverlastingAbilitiesAttributeTweak",
     "EverlastingAbilitiesCommandUncapTweak",
     "EverlastingAbilitiesUncapTweak"

@@ -1,11 +1,18 @@
 package com.name.mysticmonstrosityfixes.mixin.fixes;
 
+import com.name.mysticmonstrosityfixes.leaks.ClientNetworkConnectionClearer;
+import com.name.mysticmonstrosityfixes.leaks.LocalPlayerConnectionClearer;
 import com.name.mysticmonstrosityfixes.leaks.MultiplayerSessionLeakCleanup;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Clears the last static roots of a client session after the level is fully torn down.
@@ -28,9 +35,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public abstract class MinecraftClearLevelLeakFix {
 
+    @Unique
+    private static WeakReference<LocalPlayer> mmf$closingPlayer;
+
+    @Unique
+    private static WeakReference<ClientPacketListener> mmf$closingConnection;
+
+    @Inject(method = "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V", at = @At("HEAD"))
+    private void mmf$captureClosingPlayer(CallbackInfo ci) {
+
+        final Minecraft minecraft = (Minecraft) (Object) this;
+        mmf$closingPlayer = new WeakReference<>(minecraft.player);
+        mmf$closingConnection = new WeakReference<>(minecraft.getConnection());
+    }
+
     @Inject(method = "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V", at = @At("RETURN"))
     private void mmf$clearStaticSessionCaches(CallbackInfo ci) {
 
+        final ClientPacketListener closingConnection = mmf$closingConnection == null ? null : mmf$closingConnection.get();
+        mmf$closingConnection = null;
+        if (closingConnection instanceof ClientNetworkConnectionClearer clearer) {
+            clearer.mmf$clearNetworkConnection();
+        }
+
+        final LocalPlayer closingPlayer = mmf$closingPlayer == null ? null : mmf$closingPlayer.get();
+        mmf$closingPlayer = null;
+        if (closingPlayer instanceof LocalPlayerConnectionClearer clearer) {
+            clearer.mmf$clearConnection();
+        }
         MultiplayerSessionLeakCleanup.onLevelCleared();
     }
 }

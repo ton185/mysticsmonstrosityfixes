@@ -85,6 +85,10 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
             Map.entry("AlexsMobsGhostlyPickaxeBakeFix", new String[]{
                     "com.github.alexthe666.alexsmobs.ClientProxy",
                     "com.github.alexthe666.alexsmobs.client.render.item.GhostlyPickaxeBakedModel"}),
+            Map.entry("AllTheImbaiumSupplyDataTweak", new String[]{
+                    "cn.sd.jrz.alltheimbaium.setup.SupplyData"}),
+            Map.entry("AllTheImbaiumSupplyEventsTweak", new String[]{
+                    "cn.sd.jrz.alltheimbaium.setup.SupplyEvents"}),
             Map.entry("AxeSpellContainerFix", new String[]{
                     "com.example.chaotic_world_content.spells.AxeSpellContainerEvents"}),
             Map.entry("BielGGBrokenScriptRecursionFix", new String[]{
@@ -119,6 +123,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "qouteall.imm_ptl.core.render.context_management.PortalRendering"}),
             Map.entry("EverlastingAbilitiesAttributeFix", new String[]{
                     "org.cyclops.everlastingabilities.ability.AbilityTypeAttributeModifier"}),
+            Map.entry("MahouTsukaiShaderDoubleCloseFix", new String[]{
+                    "stepsword.mahoutsukai.render.shader.ClipShaderInstance"}),
             Map.entry("EverlastingAbilitiesAttributeTweak", new String[]{
                     "org.cyclops.everlastingabilities.ability.AbilityTypeAttributeModifier"}),
             Map.entry("EverlastingAbilitiesCommandUncapTweak", new String[]{

@@ -173,6 +173,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     // These can be made compile only I think
+    compileOnly fg.deobf("curse.maven:alltheimbaium-1380272:9001350")
+    compileOnly fg.deobf("curse.maven:mahou-tsukai-342543:7168950")
     compileOnly fg.deobf("curse.maven:jei-238222:9394360")
     compileOnly fg.deobf("curse.maven:ftb-library-forge-404465:6016763")
     compileOnly fg.deobf("curse.maven:flib-661261:8070669")

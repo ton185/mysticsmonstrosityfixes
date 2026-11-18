@@ -58,7 +58,10 @@ public final class MysticMixinConfig {
         option("mixin.fixes.modernfix_dynamic_model_drain_fix", true,
                 "ModernFixDynamicModelDrainFix");
         option("mixin.fixes.multiplayer_rejoin_leak", true,
-                "ClientPacketListenerLeakFix", "MinecraftClearLevelLeakFix");
+                "ClientPacketListenerLeakFix", "ClientPacketListenerConnectionLeakFix", "ClientPacketListenerSessionDataLeakFix",
+                "LocalPlayerConnectionLeakFix", "MinecraftClearLevelLeakFix", "MinecraftSetLevelLeakFix");
+        option("mixin.fixes.resource_reload_leak", true,
+                "LanguageReloadLeakFix", "TranslatableContentsLeakFix", "TranslatableContentsCacheAccessor");
         option("mixin.fixes.soulslike_weaponry_load_check", true,
                 "MixinSoulslikeWeaponryLoadCheck");
         option("mixin.fixes.voltex_covers", true,
@@ -86,6 +89,8 @@ public final class MysticMixinConfig {
                 "ForgeRegistryAliasSyncFix");
         option("mixin.fixes.ftb_library_null", true,
                 "FTBLibraryNullFix");
+        option("mixin.fixes.mahou_tsukai_shader_double_close", true,
+                "MahouTsukaiShaderDoubleCloseFix");
         option("mixin.fixes.gui_scale_click", true,
                 "GuiScaleClickFix");
         option("mixin.fixes.huge_mushroom", true,
@@ -138,6 +143,9 @@ public final class MysticMixinConfig {
 
         option("mixin.tweaks", "mixin.tweaks.enabled", false,
                 "Master switch for tweaks. Changes require a game restart.");
+        option("mixin.tweaks.alltheimbaium_disable_supply_points", "mixin.tweaks.alltheimbaium_disable_supply_points", true,
+                "Disable Alltheimbaium supply point gains and always report 0 supply points. Changes require a game restart.",
+                "AllTheImbaiumSupplyDataTweak", "AllTheImbaiumSupplyEventsTweak");
         option("mixin.tweaks.everlasting_abilities_uncap", "mixin.tweaks.everlasting_abilities_uncap", true,
                 "Let Everlasting Abilities exceed the max level of abilities whose max level is above one, except Resistance. Changes require a game restart.",
                 "EverlastingAbilitiesUncapTweak", "EverlastingAbilitiesCommandUncapTweak",
