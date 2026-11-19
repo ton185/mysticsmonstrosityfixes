@@ -224,6 +224,8 @@ dependencies {
     // CurseForge does not allow these two to be redistributed. The version id is the Modrinth file for the pack jar.
     compileOnly fg.deobf("maven.modrinth:immersive-convergence:cYo2xHsc")
     compileOnly fg.deobf("maven.modrinth:alexs-mobs-continued:4XgJvIvI")
+    compileOnly fg.deobf("maven.modrinth:re-avaritia:PIZk2hki")
+    compileOnly fg.deobf("maven.modrinth:avaritias-delight:1rfsBIX6")
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")

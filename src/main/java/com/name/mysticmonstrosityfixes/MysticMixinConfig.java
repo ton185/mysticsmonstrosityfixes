@@ -37,117 +37,173 @@ public final class MysticMixinConfig {
     private static boolean loaded;
 
     static {
-        option("mixin.fixes.alexs_mobs_ghostly_pickaxe_bake_fix", true,
+        fix("mixin.fixes.alexs_mobs_ghostly_pickaxe_bake_fix",
+                "Wrap Alex's Mobs' ghostly pickaxe model directly instead of scanning every baked model for it.",
                 "AlexsMobsGhostlyPickaxeBakeFix");
-        option("mixin.fixes.botany_pot_lag_fix", true,
+        fix("mixin.fixes.avaritia_recipe_lookup_hang",
+                "Replace Avaritia's exponential shapeless recipe matching with a polynomial matcher.",
+                "AvaritiaShapelessRecipeHangFix", "AvaritiaCatalystRecipeHangFix");
+        fix("mixin.fixes.botany_pot_lag_fix",
+                "Cut Botany Pots tick cost by collapsing repeated syncs and skipping idle pots and empty exports.",
                 "BotanyPotLagFix");
-        option("mixin.fixes.botany_pot_lookup", true,
+        fix("mixin.fixes.botany_pot_lookup",
+                "Cache Botany Pots soil and crop recipe lookups instead of scanning the full recipe list on every call.",
                 "BotanyPotLookupLagFix", "IngredientAccessor", "RecipeManagerAccessor");
-        option("mixin.fixes.capsule_disable_recall_enchantment", true,
+        fix("mixin.fixes.capsule_disable_recall_enchantment",
+                "Disable Capsule's recall enchantment tick, which was a source of lag.",
                 "CapsuleDisableRecallEnchantment");
-        option("mixin.fixes.eidolon_reprised_heart_lag_fix", true,
+        fix("mixin.fixes.eidolon_reprised_heart_lag_fix",
+                "Disable Eidolon Repraised's heart overlay, which lagged for players with a lot of health.",
                 "EidolonRepraisedHeartLagFix");
-        option("mixin.fixes.embers", true,
+        fix("mixin.fixes.embers",
+                "Skip Embers world rendering while Immersive Portals is drawing a portal.",
                 "EmbersMixin");
-        option("mixin.fixes.faktocraft_covers", true,
+        fix("mixin.fixes.faktocraft_covers",
+                "Wrap Faktocraft cover models on first request instead of baking every coverable state during the bake event.",
                 "FaktocraftCoverBakeFix", "ModernFixCoverBakeFix");
-        option("mixin.fixes.immersive_convergence", true,
+        fix("mixin.fixes.immersive_convergence",
+                "Bake Immersive Convergence split models from the machines it registered instead of walking every baked-model key.",
                 "ImmersiveConvergenceBakeFix", "SplitModelHandlerAccessor");
-        option("mixin.fixes.lodestone", true,
+        fix("mixin.fixes.lodestone",
+                "Skip Lodestone's depth-buffer copy while Immersive Portals is drawing a portal.",
                 "LodestoneMixin");
-        option("mixin.fixes.modernfix_dynamic_model_drain_fix", true,
+        fix("mixin.fixes.modernfix_dynamic_model_drain_fix",
+                "Drain ModernFix's pending blockstate model set in insertion order so model loading does not scan a growing hash table.",
                 "ModernFixDynamicModelDrainFix");
-        option("mixin.fixes.multiplayer_rejoin_leak", true,
+        fix("mixin.fixes.multiplayer_rejoin_leak",
+                "Clear client connection and session references on rejoin and level changes to stop memory leaks.",
                 "ClientPacketListenerLeakFix", "ClientPacketListenerConnectionLeakFix", "ClientPacketListenerSessionDataLeakFix",
                 "LocalPlayerConnectionLeakFix", "MinecraftClearLevelLeakFix", "MinecraftSetLevelLeakFix");
-        option("mixin.fixes.resource_reload_leak", true,
+        fix("mixin.fixes.resource_reload_leak",
+                "Release stale translation caches on language and resource reloads to stop old language maps leaking.",
                 "LanguageReloadLeakFix", "TranslatableContentsLeakFix", "TranslatableContentsCacheAccessor");
-        option("mixin.fixes.soulslike_weaponry_load_check", true,
+        fix("mixin.fixes.soulslike_weaponry_load_check",
+                "Cache Soulslike Weaponry's combat-mod check instead of repeating it every tick.",
                 "MixinSoulslikeWeaponryLoadCheck");
-        option("mixin.fixes.voltex_covers", true,
+        fix("mixin.fixes.spartan_shields_shield_patterns_atlas",
+                "Correct Spartan Shields' shield_patterns atlas source so it reads only entity/shield textures instead of every entity texture.",
+                "SpartanShieldsAtlasSourceFix");
+        fix("mixin.fixes.voltex_covers",
+                "Wrap Voltex cover and structural-glass models on first request instead of baking every coverable state.",
                 "VoltexCoverBakeFix", "VoltexDynamicCoverFix");
 
-        option("mixin.fixes.aether_cme", true,
+        fix("mixin.fixes.aether_cme",
+                "Stop a concurrent modification crash in the game-event listener list, seen with Aether, by iterating a snapshot.",
                 "AetherCMEFixMixin");
-        option("mixin.fixes.atmosphere_shader_compile", true,
+        fix("mixin.fixes.atmosphere_shader_compile",
+                "Rename Let There Be Atmosphere's reserved GLSL word \"packed\" so its sky shaders compile under EmberLens.",
                 "AtmosphereShaderCompileFix");
-        option("mixin.fixes.bielgg_broken_script_recursion", true,
+        fix("mixin.fixes.bielgg_broken_script_recursion",
+                "Stop BielGG's Spells from stack-overflowing when a projectile's owner chain loops back on itself.",
                 "BielGGBrokenScriptRecursionFix");
-        option("mixin.fixes.bielgg_weapon_spell_slots", true,
+        fix("mixin.fixes.bielgg_weapon_spell_slots",
+                "Stop BielGG's Spells from adding empty Iron's Spellbooks containers and NBT to every sword and axe.",
                 "SwordSpellContainerFix", "AxeSpellContainerFix");
-        option("mixin.fixes.blood_magic_null_capability", true,
+        fix("mixin.fixes.blood_magic_null_capability",
+                "Fix a crash in Blood Magic when the player does not have a curios inventory.",
                 "BloodMagicNullCapabilityFix");
-        option("mixin.fixes.capsule_preview_crash", true,
+        fix("mixin.fixes.capsule_preview_crash",
+                "Fix a crash when Capsule renders a preview for improperly coded blocks.",
                 "CapsulePreviewCrashFix");
-        option("mixin.fixes.dimension_id", true,
+        fix("mixin.fixes.dimension_id",
+                "Give Applied Energistics 2's spatial storage dimension an Immersive Portals dimension id when the id record is missing it.",
                 "DimensionIdManagementMixin", "DimensionIdRecordAccessor");
-        option("mixin.fixes.everlasting_abilities_attributes", true,
+        fix("mixin.fixes.everlasting_abilities_attributes",
+                "Apply Everlasting Abilities attribute bonuses permanently on level changes instead of reapplying them every tick.",
                 "EverlastingAbilitiesAttributeFix");
-        option("mixin.fixes.flib_potion_effect_race", true,
+        fix("mixin.fixes.flib_potion_effect_race",
+                "Fix a rare FLib potion merge crash when an effect disappears between its check and lookup.",
                 "FLibPotionEffectRaceFix", "MobEffectInstanceAccessor");
-        option("mixin.fixes.forge_registry_alias_sync", true,
+        fix("mixin.fixes.forge_registry_alias_sync",
+                "Keep synced Forge registry names on their direct registration path so stale aliases cannot orphan ids and crash the client.",
                 "ForgeRegistryAliasSyncFix");
-        option("mixin.fixes.ftb_library_null", true,
+        fix("mixin.fixes.ftb_library_null",
+                "Fix a crash in FTB Library's JEI integration when the JEI runtime is null.",
                 "FTBLibraryNullFix");
-        option("mixin.fixes.mahou_tsukai_shader_double_close", true,
+        fix("mixin.fixes.mahou_tsukai_shader_double_close",
+                "Close Mahou Tsukai's clip-shader uniform buffers once instead of double-freeing them.",
                 "MahouTsukaiShaderDoubleCloseFix");
-        option("mixin.fixes.gui_scale_click", true,
+        fix("mixin.fixes.gui_scale_click",
+                "Keep a left click in any menu when GUI Scale Additions rebuilds the open screen on mouse release.",
                 "GuiScaleClickFix");
-        option("mixin.fixes.huge_mushroom", true,
+        fix("mixin.fixes.huge_mushroom",
+                "Replace Dynamic Trees Plus's broken huge-mushroom rot with normal Dynamic Trees rot behavior.",
                 "HugeMushroomSpeciesMixin", "SpeciesAccessor");
-        option("mixin.fixes.illage_projectile_category", true,
+        fix("mixin.fixes.illage_projectile_category",
+                "Tag Illage and Spillage's thrown axe and bone as miscellaneous to stop the \"has no attributes\" error.",
                 "EntityTypeCategoryAccessor");
-        option("mixin.fixes.inventory_pets_nbt_null", true,
+        fix("mixin.fixes.inventory_pets_nbt_null",
+                "Fix a crash in Inventory Pets when the item's NBT is missing a required key.",
                 "InventoryPetsNbtNullFix");
-        option("mixin.fixes.item_collectors_instant_pickup", true,
+        fix("mixin.fixes.item_collectors_instant_pickup",
+                "Insert new drops into Item Collectors before they become item entities, avoiding loot explosions.",
                 "ItemCollectorBlockEntityMixin");
-        option("mixin.fixes.jade_enum_plugin_load", true,
+        fix("mixin.fixes.jade_enum_plugin_load",
+                "Let Jade load enum plugins, including Applied Quantum Inscriber's Jade plugin.",
                 "JadeEnumPluginLoadFix");
-        option("mixin.fixes.jitl_client_essence_null", true,
+        fix("mixin.fixes.jitl_client_essence_null",
+                "Fix a crash in Journey Into the Light when the player's essence capability is missing.",
                 "JITLClientEssenceNullFix");
-        option("mixin.fixes.jitl_death_crash", true,
+        fix("mixin.fixes.jitl_death_crash",
+                "Fix a crash in Journey Into the Light when the player's stats capability is missing.",
                 "JITLDeathCrashFix");
-        option("mixin.fixes.jitl_offline_crash", true,
+        fix("mixin.fixes.jitl_offline_crash",
+                "Fix a crash in Journey Into the Light when checking for updates while offline.",
                 "JITLOfflineCrashFix");
-        option("mixin.fixes.krypton_reforged_var_int", true,
+        fix("mixin.fixes.krypton_reforged_var_int",
+                "Raise Krypton Reforged's VarInt byte limit to the size configured by Packet Fixer.",
                 "KryptonReforgedVarIntFix");
-        option("mixin.fixes.minecontrollers_skull_register", true,
+        fix("mixin.fixes.minecontrollers_skull_register",
+                "Stop Minecontrollers from logging a skull-registration error for every unrelated field on the skull block entity.",
                 "MinecontrollersSkullRegisterFix");
-        option("mixin.fixes.moving_elevators_cabin_cl", true,
+        fix("mixin.fixes.moving_elevators_cabin_cl",
+                "Point Moving Elevators' cabin level at the real world so Colorful Lighting can light it.",
                 "MovingElevatorsCabinCLCompat");
-        option("mixin.fixes.remove_all_effects_cme", true,
+        fix("mixin.fixes.remove_all_effects_cme",
+                "Remove effects from a snapshot so effect listeners can add or remove effects without a concurrent modification crash.",
                 "LivingEntityRemoveAllEffectsCMEFix");
-        option("mixin.fixes.placeable_bamboo_soil", true,
+        fix("mixin.fixes.placeable_bamboo_soil",
+                "Keep Placeable Plants from crashing on startup and apply its soil rule to bamboo.",
                 "PlaceableBambooSoilFix");
-        option("mixin.fixes.placeable_big_dripleaf_soil", true,
+        fix("mixin.fixes.placeable_big_dripleaf_soil",
+                "Keep Placeable Plants from crashing on startup and apply its soil rule to big dripleaf.",
                 "PlaceableBigDripleafSoilFix");
-        option("mixin.fixes.placeable_big_dripleaf_stem_soil", true,
+        fix("mixin.fixes.placeable_big_dripleaf_stem_soil",
+                "Keep Placeable Plants from crashing on startup and apply its soil rule to big dripleaf stems.",
                 "PlaceableBigDripleafStemSoilFix");
-        option("mixin.fixes.placeable_bush_soil", true,
+        fix("mixin.fixes.placeable_bush_soil",
+                "Keep Placeable Plants from crashing on startup and apply its soil rule to bushes.",
                 "PlaceableBushSoilFix");
-        option("mixin.fixes.placeable_dead_bush_soil", true,
+        fix("mixin.fixes.placeable_dead_bush_soil",
+                "Keep Placeable Plants from crashing on startup and apply its soil rule to dead bushes.",
                 "PlaceableDeadBushSoilFix");
-        option("mixin.fixes.placeable_sapling_soil", true,
+        fix("mixin.fixes.placeable_sapling_soil",
+                "Keep Placeable Plants from crashing on startup and apply its soil rule to saplings.",
                 "PlaceableSaplingSoilFix");
-        option("mixin.fixes.sol_carrot_foods_null", true,
+        fix("mixin.fixes.sol_carrot_foods_null",
+                "Fix a crash in Spice of Life: Carrot Edition when the food blacklist list is null.",
                 "SoLCarrotFoodsNullFix");
-        option("mixin.fixes.solar_craft_shader_load_crash", true,
+        fix("mixin.fixes.solar_craft_shader_load_crash",
+                "Fix a crash in Solar Craft when loading shaders with zero window dimensions.",
                 "SolarCraftShaderLoadCrashFix");
 
         option("mixin.experimental", "mixin.experimental.enabled", false,
-                "Master switch for experimental mixins. Changes require a game restart.");
+                "Master switch for experimental mixins.");
         option("mixin.experimental.bootcache", "mixin.experimental.bootcache", true,
-                "Enable the experimental boot resource cache mixins. Changes require a game restart.");
+                "Cache boot-time reads of text and JSON from mod jars and resource packs.");
         option("mixin.experimental.blockatlas", "mixin.experimental.blockatlas", true,
-                "Enable the experimental block atlas mixins. Changes require a game restart.");
+                "Split the block texture atlas into pages and keep block, item, and GUI shaders sampling the right texture.");
 
         option("mixin.tweaks", "mixin.tweaks.enabled", false,
-                "Master switch for tweaks. Changes require a game restart.");
+                "Master switch for tweaks.");
         option("mixin.tweaks.alltheimbaium_disable_supply_points", "mixin.tweaks.alltheimbaium_disable_supply_points", true,
-                "Disable Alltheimbaium supply point gains and always report 0 supply points. Changes require a game restart.",
+                "Disable Alltheimbaium supply point gains and always report 0 supply points.",
                 "AllTheImbaiumSupplyDataTweak", "AllTheImbaiumSupplyEventsTweak");
+        option("mixin.tweaks.avaritia_catalyst_cookie_consumes", "mixin.tweaks.avaritia_catalyst_cookie_consumes", true,
+                "Consume one infinity catalyst cookie when eaten instead of leaving the stack untouched.",
+                "AvaritiaCatalystCookieConsumeTweak");
         option("mixin.tweaks.everlasting_abilities_uncap", "mixin.tweaks.everlasting_abilities_uncap", true,
-                "Let Everlasting Abilities exceed the max level of abilities whose max level is above one, except Resistance. Changes require a game restart.",
+                "Let Everlasting Abilities exceed the max level of abilities whose max level is above one, except Resistance.",
                 "EverlastingAbilitiesUncapTweak", "EverlastingAbilitiesCommandUncapTweak",
                 "EverlastingAbilitiesAttributeTweak", "EverlastingAbilitiesTooltipTweak");
     }
@@ -238,17 +294,16 @@ public final class MysticMixinConfig {
         return null;
     }
 
-    private static void option(String key, boolean defaultValue, String... mixinClassNames) {
-        String name = key.substring(key.lastIndexOf('.') + 1);
-        option(key, key, defaultValue, "Enable the " + name + " mixin. Changes require a game restart.", mixinClassNames);
+    private static void fix(String key, String summary, String... mixinClassNames) {
+        option(key, key, true, summary, mixinClassNames);
     }
 
     private static void option(
-            String key, String tomlPath, boolean defaultValue, String comment, String... mixinClassNames
+            String key, String tomlPath, boolean defaultValue, String summary, String... mixinClassNames
     ) {
         DEFAULTS.put(key, defaultValue);
         TOML_PATHS.put(key, tomlPath);
-        COMMENTS.put(key, comment);
+        COMMENTS.put(key, summary + " Changes require a game restart.");
         for (String mixinClassName : mixinClassNames) {
             MIXIN_KEYS.put(mixinClassName, key);
         }

@@ -7,6 +7,8 @@
   "plugin": "com.name.mysticmonstrosityfixes.mixin.MysticMonstrosityFixesMixinPlugin",
   "mixins": [
     "AetherCMEFixMixin",
+    "AvaritiaCatalystRecipeHangFix",
+    "AvaritiaShapelessRecipeHangFix",
     "AxeSpellContainerFix",
     "BielGGBrokenScriptRecursionFix",
     "BloodMagicNullCapabilityFix",
@@ -59,6 +61,7 @@
     "MinecraftClearLevelLeakFix",
     "MinecraftSetLevelLeakFix",
     "SolarCraftShaderLoadCrashFix",
+    "SpartanShieldsAtlasSourceFix",
     "SoLCarrotFoodsNullFix",
     "TranslatableContentsCacheAccessor",
     "TranslatableContentsLeakFix",

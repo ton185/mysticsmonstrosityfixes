@@ -89,6 +89,12 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "cn.sd.jrz.alltheimbaium.setup.SupplyData"}),
             Map.entry("AllTheImbaiumSupplyEventsTweak", new String[]{
                     "cn.sd.jrz.alltheimbaium.setup.SupplyEvents"}),
+            Map.entry("AvaritiaCatalystRecipeHangFix", new String[]{
+                    "committee.nova.mods.avaritia.common.crafting.recipe.InfinityCatalystCraftRecipe"}),
+            Map.entry("AvaritiaCatalystCookieConsumeTweak", new String[]{
+                    "com.committee.nova.avaritia_delight.item.InfinityCatalystCookieItem"}),
+            Map.entry("AvaritiaShapelessRecipeHangFix", new String[]{
+                    "committee.nova.mods.avaritia.common.crafting.recipe.ShapelessTableCraftingRecipe"}),
             Map.entry("AxeSpellContainerFix", new String[]{
                     "com.example.chaotic_world_content.spells.AxeSpellContainerEvents"}),
             Map.entry("BielGGBrokenScriptRecursionFix", new String[]{
