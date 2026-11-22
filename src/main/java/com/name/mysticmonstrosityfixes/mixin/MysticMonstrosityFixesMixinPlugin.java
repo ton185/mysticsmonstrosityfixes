@@ -82,9 +82,6 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.moakiee.ae2lt.client.compat.JeiRecipeTransferMetadata",
                     "com.moakiee.ae2lt.client.tianshu.TianshuDirectUploadClient",
                     "com.moakiee.ae2lt.menu.TianshuPatternEncodingTermMenu"}),
-            Map.entry("AlexsMobsGhostlyPickaxeBakeFix", new String[]{
-                    "com.github.alexthe666.alexsmobs.ClientProxy",
-                    "com.github.alexthe666.alexsmobs.client.render.item.GhostlyPickaxeBakedModel"}),
             Map.entry("AllTheImbaiumSupplyDataTweak", new String[]{
                     "cn.sd.jrz.alltheimbaium.setup.SupplyData"}),
             Map.entry("AllTheImbaiumSupplyEventsTweak", new String[]{
@@ -156,10 +153,10 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.ferreusveritas.dynamictreesplus.tree.HugeMushroomSpecies",
                     "com.ferreusveritas.dynamictrees.tree.species.Species",
                     "com.ferreusveritas.dynamictrees.init.DTConfigs"}),
-            Map.entry("ImmersiveConvergenceBakeFix", new String[]{
-                    "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
             Map.entry("IngredientAccessor", new String[]{
                     "net.darkhax.botanypots.BotanyPotHelper"}),
+            Map.entry("ImmersiveConvergenceBakeFix", new String[]{
+                    "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
             Map.entry("InventoryPetsNbtNullFix", new String[]{
                     "com.inventorypets.pets.petChest"}),
             Map.entry("ItemCollectorBlockEntityMixin", new String[]{
@@ -181,6 +178,11 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
             Map.entry("LodestoneMixin", new String[]{
                     "team.lodestar.lodestone.handlers.RenderHandler",
                     "qouteall.imm_ptl.core.render.context_management.PortalRendering"}),
+            Map.entry("ModernFixBakeEventIterationFix", new String[]{
+                    "org.embeddedt.modernfix.forge.dynresources.ModelBakeEventHelper",
+                    "org.embeddedt.modernfix.dynamicresources.DynamicBakedModelProvider"}),
+            Map.entry("ModernFixDynamicModelProviderAccessor", new String[]{
+                    "org.embeddedt.modernfix.dynamicresources.DynamicBakedModelProvider"}),
             Map.entry("ModernFixCoverBakeFix", new String[]{
                     "org.embeddedt.modernfix.dynamicresources.DynamicBakedModelProvider",
                     "com.faktocraft.client.model.CoverBakedModel",
@@ -200,10 +202,10 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "me.erykczy.colorfullighting.common.ColoredLightEngine"}),
             Map.entry("RecipeManagerAccessor", new String[]{
                     "net.darkhax.botanypots.BotanyPotHelper"}),
-            Map.entry("SplitModelHandlerAccessor", new String[]{
-                    "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
             Map.entry("SoLCarrotFoodsNullFix", new String[]{
                     "com.cazsius.solcarrot.client.FoodItems"}),
+            Map.entry("SplitModelHandlerAccessor", new String[]{
+                    "com.immersiveconvergence.api.client.split.SplitModelHandler"}),
             Map.entry("SolarCraftShaderLoadCrashFix", new String[]{
                     "com.finderfeed.solarcraft.content.blocks.render.RuneEnergyPylonRenderer"}),
             Map.entry("VoltexCoverBakeFix", new String[]{

@@ -37,9 +37,6 @@ public final class MysticMixinConfig {
     private static boolean loaded;
 
     static {
-        fix("mixin.fixes.alexs_mobs_ghostly_pickaxe_bake_fix",
-                "Wrap Alex's Mobs' ghostly pickaxe model directly instead of scanning every baked model for it.",
-                "AlexsMobsGhostlyPickaxeBakeFix");
         fix("mixin.fixes.avaritia_recipe_lookup_hang",
                 "Replace Avaritia's exponential shapeless recipe matching with a polynomial matcher.",
                 "AvaritiaShapelessRecipeHangFix", "AvaritiaCatalystRecipeHangFix");
@@ -67,6 +64,9 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.lodestone",
                 "Skip Lodestone's depth-buffer copy while Immersive Portals is drawing a portal.",
                 "LodestoneMixin");
+        fix("mixin.fixes.modernfix_bake_event_iteration",
+                "Keep mods from forcing ModernFix to bake models outside their own namespace when they iterate the bake event registry.",
+                "ModernFixBakeEventIterationFix", "ModernFixDynamicModelProviderAccessor");
         fix("mixin.fixes.modernfix_dynamic_model_drain_fix",
                 "Drain ModernFix's pending blockstate model set in insertion order so model loading does not scan a growing hash table.",
                 "ModernFixDynamicModelDrainFix");
@@ -90,6 +90,9 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.aether_cme",
                 "Stop a concurrent modification crash in the game-event listener list, seen with Aether, by iterating a snapshot.",
                 "AetherCMEFixMixin");
+        fix("mixin.fixes.atlas_downscaling",
+                "Downscale sprites listed under mixin.fixes.atlas_downscaling_entries before they are stitched into an atlas.",
+                "AtlasDownscalingFix");
         fix("mixin.fixes.atmosphere_shader_compile",
                 "Rename Let There Be Atmosphere's reserved GLSL word \"packed\" so its sky shaders compile under EmberLens.",
                 "AtmosphereShaderCompileFix");

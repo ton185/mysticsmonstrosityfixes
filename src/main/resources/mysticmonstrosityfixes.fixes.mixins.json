@@ -46,6 +46,7 @@
     "RecipeManagerAccessor"
   ],
   "client": [
+    "AtlasDownscalingFix",
     "AtmosphereShaderCompileFix",
     "CapsulePreviewCrashFix",
     "ClientPacketListenerLeakFix",
@@ -65,12 +66,13 @@
     "SoLCarrotFoodsNullFix",
     "TranslatableContentsCacheAccessor",
     "TranslatableContentsLeakFix",
-    "AlexsMobsGhostlyPickaxeBakeFix",
     "EidolonRepraisedHeartLagFix",
     "FaktocraftCoverBakeFix",
     "ImmersiveConvergenceBakeFix",
+    "ModernFixBakeEventIterationFix",
     "ModernFixCoverBakeFix",
     "ModernFixDynamicModelDrainFix",
+    "ModernFixDynamicModelProviderAccessor",
     "SplitModelHandlerAccessor",
     "VoltexCoverBakeFix",
     "VoltexDynamicCoverFix"
