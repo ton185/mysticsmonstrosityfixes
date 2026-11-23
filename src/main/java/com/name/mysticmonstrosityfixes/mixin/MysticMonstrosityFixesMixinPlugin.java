@@ -92,6 +92,9 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.committee.nova.avaritia_delight.item.InfinityCatalystCookieItem"}),
             Map.entry("AvaritiaShapelessRecipeHangFix", new String[]{
                     "committee.nova.mods.avaritia.common.crafting.recipe.ShapelessTableCraftingRecipe"}),
+            Map.entry("ApothicAttributeNumberFormatFix", new String[]{
+                    "dev.shadowsoffire.attributeslib.client.AttributesGui",
+                    "dev.shadowsoffire.attributeslib.api.IFormattableAttribute"}),
             Map.entry("AxeSpellContainerFix", new String[]{
                     "com.example.chaotic_world_content.spells.AxeSpellContainerEvents"}),
             Map.entry("BielGGBrokenScriptRecursionFix", new String[]{

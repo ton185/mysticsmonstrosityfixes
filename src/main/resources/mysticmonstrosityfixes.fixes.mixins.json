@@ -12,6 +12,7 @@
     "AxeSpellContainerFix",
     "BielGGBrokenScriptRecursionFix",
     "BloodMagicNullCapabilityFix",
+    "ClientboundUpdateMobEffectPacketFullAmplifierFix",
     "DimensionIdManagementMixin",
     "DimensionIdRecordAccessor",
     "EntityTypeCategoryAccessor",
@@ -46,12 +47,14 @@
     "RecipeManagerAccessor"
   ],
   "client": [
+    "ApothicAttributeNumberFormatFix",
     "AtlasDownscalingFix",
     "AtmosphereShaderCompileFix",
     "CapsulePreviewCrashFix",
     "ClientPacketListenerLeakFix",
     "ClientPacketListenerConnectionLeakFix",
     "ClientPacketListenerSessionDataLeakFix",
+    "ClientPacketListenerFullEffectAmplifierFix",
     "LocalPlayerConnectionLeakFix",
     "FTBLibraryNullFix",
     "GuiScaleClickFix",

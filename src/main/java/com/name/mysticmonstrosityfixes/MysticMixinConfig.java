@@ -90,6 +90,9 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.aether_cme",
                 "Stop a concurrent modification crash in the game-event listener list, seen with Aether, by iterating a snapshot.",
                 "AetherCMEFixMixin");
+        fix("mixin.fixes.apothic_attribute_number_format",
+                "Format attribute values on Apothic Attributes' attribute screen with locale grouping, M/B/T suffixes below one quadrillion, and scientific notation at or above it.",
+                "ApothicAttributeNumberFormatFix");
         fix("mixin.fixes.atlas_downscaling",
                 "Downscale sprites listed under mixin.fixes.atlas_downscaling_entries before they are stitched into an atlas.",
                 "AtlasDownscalingFix");
@@ -117,6 +120,9 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.flib_potion_effect_race",
                 "Fix a rare FLib potion merge crash when an effect disappears between its check and lookup.",
                 "FLibPotionEffectRaceFix", "MobEffectInstanceAccessor");
+        fix("mixin.fixes.full_mob_effect_amplifier",
+                "Send full-int mob effect amplifiers in the effect update packet and use them when the client builds the effect instance, so levels above 127 no longer wrap negative. Both sides must use the same setting.",
+                "ClientboundUpdateMobEffectPacketFullAmplifierFix", "ClientPacketListenerFullEffectAmplifierFix");
         fix("mixin.fixes.forge_registry_alias_sync",
                 "Keep synced Forge registry names on their direct registration path so stale aliases cannot orphan ids and crash the client.",
                 "ForgeRegistryAliasSyncFix");

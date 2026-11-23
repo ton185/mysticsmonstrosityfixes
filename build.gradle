@@ -214,6 +214,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:guideme-1173950:8204776")
     compileOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
     compileOnly fg.deobf("curse.maven:attributefix-280510:7612291")
+    compileOnly fg.deobf("curse.maven:apothic-attributes-898963:5634071")
     compileOnly fg.deobf("curse.maven:mixin-helper-1492883:9236652")
     compileOnly fg.deobf("curse.maven:minecontrollers-1331820:7356682")
     compileOnly fg.deobf("curse.maven:jade-324717:8479276")
