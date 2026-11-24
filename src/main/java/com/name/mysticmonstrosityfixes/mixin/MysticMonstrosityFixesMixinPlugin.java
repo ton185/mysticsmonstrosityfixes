@@ -144,6 +144,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.faktocraft.client.FaktocraftClient",
                     "com.faktocraft.common.cover.CoverSupport",
                     "com.faktocraft.client.model.CoverBakedModel"}),
+            Map.entry("FastRecipesConditionContextFix", new String[]{
+                    "dev.sixik.fastrecipes.FastRecipeManager"}),
             Map.entry("FLibPotionEffectRaceFix", new String[]{
                     "com.lothrazar.library.util.EntityUtil"}),
             Map.entry("GuiScaleClickFix", new String[]{
@@ -205,6 +207,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "me.erykczy.colorfullighting.common.ColoredLightEngine"}),
             Map.entry("RecipeManagerAccessor", new String[]{
                     "net.darkhax.botanypots.BotanyPotHelper"}),
+            Map.entry("RecipeManagerConditionContextAccessor", new String[]{
+                    "dev.sixik.fastrecipes.FastRecipeManager"}),
             Map.entry("SoLCarrotFoodsNullFix", new String[]{
                     "com.cazsius.solcarrot.client.FoodItems"}),
             Map.entry("SplitModelHandlerAccessor", new String[]{

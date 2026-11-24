@@ -117,6 +117,12 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.everlasting_abilities_attributes",
                 "Apply Everlasting Abilities attribute bonuses permanently on level changes instead of reapplying them every tick.",
                 "EverlastingAbilitiesAttributeFix");
+        fix("mixin.fixes.experience_orb_single_award",
+                "Spawn each XP award as one orb instead of splitting it into pieces that each scan nearby orbs for merging.",
+                "ExperienceOrbSingleAwardFix", "ExperienceOrbValuePersistenceFix");
+        fix("mixin.fixes.fastrecipes_condition_context",
+                "Give FastRecipes' recipe manager the server's real recipe condition context so tag-based conditions are not silently dropped.",
+                "FastRecipesConditionContextFix", "RecipeManagerConditionContextAccessor");
         fix("mixin.fixes.flib_potion_effect_race",
                 "Fix a rare FLib potion merge crash when an effect disappears between its check and lookup.",
                 "FLibPotionEffectRaceFix", "MobEffectInstanceAccessor");

@@ -17,6 +17,9 @@
     "DimensionIdRecordAccessor",
     "EntityTypeCategoryAccessor",
     "EverlastingAbilitiesAttributeFix",
+    "ExperienceOrbSingleAwardFix",
+    "ExperienceOrbValuePersistenceFix",
+    "FastRecipesConditionContextFix",
     "FLibPotionEffectRaceFix",
     "ForgeRegistryAliasSyncFix",
     "HugeMushroomSpeciesMixin",
@@ -44,7 +47,8 @@
     "IngredientAccessor",
     "LodestoneMixin",
     "MixinSoulslikeWeaponryLoadCheck",
-    "RecipeManagerAccessor"
+    "RecipeManagerAccessor",
+    "RecipeManagerConditionContextAccessor"
   ],
   "client": [
     "ApothicAttributeNumberFormatFix",
