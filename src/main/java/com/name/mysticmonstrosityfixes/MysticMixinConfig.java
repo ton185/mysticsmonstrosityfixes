@@ -87,6 +87,18 @@ public final class MysticMixinConfig {
                 "Wrap Voltex cover and structural-glass models on first request instead of baking every coverable state.",
                 "VoltexCoverBakeFix", "VoltexDynamicCoverFix");
 
+        fix("mixin.fixes.ae2_crafting_tree_mixin_conflict",
+                "Keep AE2 Crafting Optimizer's memoized crafting-tree lookup and Insane AE2 Addons' provider-card filter on the same query.",
+                "Ae2CraftingTreeMixinConflictFix");
+        fix("mixin.fixes.aco_ae2_version_audit_bypass",
+                "Skip ACO's AE2 version requirement in its experimental audit so the compiled crafting graph stays enabled on patch releases such as AE2 15.4.12. The other audit checks still run; if the build is genuinely incompatible, ACO will fail when the feature is used.",
+                "AcoAe2VersionAuditBypassFix");
+        fix("mixin.fixes.extendedae_aco_exact_storage_compat",
+                "Replace ACO 1.5.33's ExtendedAE Plus exact-storage mixins when ExtendedAE Plus 1.6.4 splits its Long/BigInteger amount maps; the replacement access bridge keeps ACO's exact BigInteger cell snapshots and mutations working.",
+                "ExtendedAePlusBigIntegerCellAccessFix", "InfinityDataStorageExactTotalFix");
+        fix("mixin.fixes.advanced_quantum_engineering_paused_host_snapshot",
+                "Repair AQE 2.2.x paused opaque host snapshots when an ACO payload is paused (for example ACO was removed); the paused host currently builds an invalid overcommitted snapshot and crashes CPU loading. The opaque payload is preserved.",
+                "AqePausedHostSnapshotFix");
         fix("mixin.fixes.aether_cme",
                 "Stop a concurrent modification crash in the game-event listener list, seen with Aether, by iterating a snapshot.",
                 "AetherCMEFixMixin");
@@ -221,6 +233,9 @@ public final class MysticMixinConfig {
                 "Let Everlasting Abilities exceed the max level of abilities whose max level is above one, except Resistance.",
                 "EverlastingAbilitiesUncapTweak", "EverlastingAbilitiesCommandUncapTweak",
                 "EverlastingAbilitiesAttributeTweak", "EverlastingAbilitiesTooltipTweak");
+        option("mixin.tweaks.disable_enchantmentlevelbreak_anvil_mixin",
+                "mixin.tweaks.disable_enchantmentlevelbreak_anvil_mixin", true,
+                "Disable Enchantment Level Break's anvil mixin and use vanilla anvil combining.");
     }
 
     private MysticMixinConfig() {
@@ -252,12 +267,20 @@ public final class MysticMixinConfig {
      * @return false when that mixin's option, or any parent option, is turned off
      */
     public static boolean allow(String mixinClassName) {
-        load();
         String option = optionFor(mixinClassName);
-        if (option == null) {
+        return option == null || isEnabled(option);
+    }
+
+    /**
+     * @param key a registered option key such as {@code mixin.tweaks.enabled}
+     * @return false when that option, or any of its parent options, is turned off
+     */
+    public static boolean isEnabled(String key) {
+        load();
+        if (key == null) {
             return true;
         }
-        String[] parts = option.split("\\.");
+        String[] parts = key.split("\\.");
         StringBuilder path = new StringBuilder(parts[0]);
         for (int i = 1; i < parts.length; i++) {
             path.append('.').append(parts[i]);

@@ -61,3 +61,24 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "ae2_crafting_optimizer"
+mandatory = false
+versionRange = "[0,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "insaneae2addons"
+mandatory = false
+versionRange = "[0,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "enchantmentlevelbreak"
+mandatory = false
+versionRange = "[0,)"
+ordering = "BEFORE"
+side = "BOTH"

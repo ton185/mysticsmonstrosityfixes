@@ -6,7 +6,12 @@
   "refmap": "mysticmonstrosityfixes.refmap.json",
   "plugin": "com.name.mysticmonstrosityfixes.mixin.MysticMonstrosityFixesMixinPlugin",
   "mixins": [
+    "AcoAe2VersionAuditBypassFix",
+    "Ae2CraftingTreeMixinConflictFix",
     "AetherCMEFixMixin",
+    "AqePausedHostSnapshotFix",
+    "ExtendedAePlusBigIntegerCellAccessFix",
+    "InfinityDataStorageExactTotalFix",
     "AvaritiaCatalystRecipeHangFix",
     "AvaritiaShapelessRecipeHangFix",
     "AxeSpellContainerFix",

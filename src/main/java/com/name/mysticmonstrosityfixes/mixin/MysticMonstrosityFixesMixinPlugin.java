@@ -2,6 +2,11 @@ package com.name.mysticmonstrosityfixes.mixin;
 
 import com.mojang.logging.LogUtils;
 import com.name.mysticmonstrosityfixes.MysticMixinConfig;
+import com.name.mysticmonstrosityfixes.ae2.AcoCompat;
+import com.name.mysticmonstrosityfixes.ae2.Ae2CraftingTreeMixinCompat;
+import com.name.mysticmonstrosityfixes.ae2.ExtendedAePlusAcoCompat;
+import com.name.mysticmonstrosityfixes.ae2.ModResourceLoader;
+import com.name.mysticmonstrosityfixes.tweaks.EnchantmentLevelBreakAnvilMixinTweak;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -68,6 +73,10 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
     };
     private static final Map<String, ClassNode> CLASS_CACHE = new HashMap<>();
     private static final Map<String, Set<String>> PRE_APPLY_METHODS = new ConcurrentHashMap<>();
+    private static final Set<String> RUNTIME_TARGET_MIXINS = Set.of(
+            "Ae2CraftingTreeMixinConflictFix");
+    private static final Set<String> EXTENDEDAE_ACO_MIXINS = Set.of(
+            "ExtendedAePlusBigIntegerCellAccessFix", "InfinityDataStorageExactTotalFix");
 
     private String mixinPackage = "";
 
@@ -76,6 +85,18 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
      * Mixins absent from this map have vanilla targets and always apply.
      */
     private static final Map<String, String[]> REQUIRED_CLASSES = Map.ofEntries(
+            Map.entry("AqePausedHostSnapshotFix", new String[]{
+                    "com.syaru.advancedquantumengineering.integration.PausedOpaqueBigCraftingHost",
+                    "com.syaru.advancedquantumengineering.integration.AQEHostSnapshot"}),
+            Map.entry("AcoAe2VersionAuditBypassFix", new String[]{
+                    "com.syaru.ae2craftingoptimizer.integration.ExperimentalCompatibilityValidator"}),
+            Map.entry("ExtendedAePlusBigIntegerCellAccessFix", new String[]{
+                    "com.syaru.ae2craftingoptimizer.access.ExtendedAePlusBigIntegerCellInventoryAccess",
+                    "com.extendedae_plus.api.storage.InfinityBigIntegerCellInventory",
+                    "com.extendedae_plus.util.storage.InfinityDataStorage"}),
+            Map.entry("InfinityDataStorageExactTotalFix", new String[]{
+                    "com.syaru.ae2craftingoptimizer.access.ExtendedAePlusBigIntegerCellInventoryAccess",
+                    "com.extendedae_plus.util.storage.InfinityDataStorage"}),
             Map.entry("Ae2ltJeiRecipeTransferFix", new String[]{
                     "mezz.jei.gui.recipes.RecipeTransferButtonController",
                     "mezz.jei.gui.recipes.RecipesGui",
@@ -232,6 +253,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
     public void onLoad(String mixinPackage) {
         this.mixinPackage = mixinPackage == null ? "" : mixinPackage;
         try {
+            Ae2CraftingTreeMixinCompat.setResourceLoader(Thread.currentThread().getContextClassLoader());
+            ModResourceLoader.capture(Thread.currentThread().getContextClassLoader());
             MysticMixinConfig.load();
         } catch (Exception | LinkageError exception) {
             LOGGER.warn("Could not load Mystic Monstrosity Fixes mixin options; using defaults", exception);
@@ -249,6 +272,15 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     : mixinClassName.substring(mixinClassName.lastIndexOf('.') + 1);
             if (mixinName == null) {
                 return true;
+            }
+            if (RUNTIME_TARGET_MIXINS.contains(mixinName)) {
+                return AcoCompat.isLegacy();
+            }
+            if ("AcoAe2VersionAuditBypassFix".equals(mixinName) && !AcoCompat.isLegacy()) {
+                return false;
+            }
+            if (EXTENDEDAE_ACO_MIXINS.contains(mixinName) && !ExtendedAePlusAcoCompat.shouldRepair()) {
+                return false;
             }
 
             for (String required : REQUIRED_CLASSES.getOrDefault(mixinName, new String[0])) {
@@ -285,6 +317,8 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
         if (targetClassName == null || isNonModTarget(targetClassName)) {
             return true;
         }
+        final boolean runtimeTargets = RUNTIME_TARGET_MIXINS.contains(
+                mixinClassName.substring(mixinClassName.lastIndexOf('.') + 1));
         final ClassNode mixin = readClass(mixinClassName);
         if (mixin == null) {
             LOGGER.warn("Could not read mixin class {}, skipping {}", mixinClassName, mixinClassName);
@@ -332,10 +366,10 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
             for (String injector : INJECTOR_ANNOTATIONS) {
                 final AnnotationNode annotation = getAnnotation(method.visibleAnnotations, method.invisibleAnnotations, injector);
                 if (annotation != null) {
-                    if (!injectorTargetsMatch(mixinClassName, targetClassName, annotation)) {
+                    if (!runtimeTargets && !injectorTargetsMatch(mixinClassName, targetClassName, annotation)) {
                         return false;
                     }
-                    if (!atTargetsMatch(mixinClassName, targetClassName, annotation)) {
+                    if (!runtimeTargets && !atTargetsMatch(mixinClassName, targetClassName, annotation)) {
                         return false;
                     }
                 }
@@ -626,6 +660,15 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
+        try {
+            Ae2CraftingTreeMixinCompat.setResourceLoader(Thread.currentThread().getContextClassLoader());
+            ModResourceLoader.capture(Thread.currentThread().getContextClassLoader());
+            Ae2CraftingTreeMixinCompat.installIfEnabled();
+            ExtendedAePlusAcoCompat.installIfEnabled();
+            EnchantmentLevelBreakAnvilMixinTweak.installIfEnabled();
+        } catch (Exception | LinkageError exception) {
+            LOGGER.warn("Could not install early mixin compatibility tweaks", exception);
+        }
     }
 
     @Override
@@ -685,6 +728,9 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
     private static void warnAboutFailedInjectors(String targetClassName, ClassNode targetClass, String mixinClassName) {
 
         try {
+            if (RUNTIME_TARGET_MIXINS.contains(mixinClassName.substring(mixinClassName.lastIndexOf('.') + 1))) {
+                return;
+            }
             final Set<String> before = PRE_APPLY_METHODS.remove(applyKey(targetClassName, mixinClassName));
             final ClassNode mixin = readClass(mixinClassName);
             if (before == null || mixin == null) {
