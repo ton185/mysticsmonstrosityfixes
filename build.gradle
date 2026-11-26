@@ -225,6 +225,8 @@ dependencies {
     compileOnly fg.deobf("curse.maven:modernfix-790626:9544538")
     compileOnly fg.deobf("curse.maven:voltex-1579019:9508550")
     compileOnly fg.deobf("curse.maven:ae2-lightning-tech-1527395:9480274")
+    compileOnly fg.deobf("curse.maven:polymorph-388800:8854504")
+    compileOnly fg.deobf("curse.maven:fast-recipes-1464321:7636216")
     // CurseForge does not allow these two to be redistributed. The version id is the Modrinth file for the pack jar.
     compileOnly fg.deobf("maven.modrinth:immersive-convergence:cYo2xHsc")
     compileOnly fg.deobf("maven.modrinth:alexs-mobs-continued:4XgJvIvI")

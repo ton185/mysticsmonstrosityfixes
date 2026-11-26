@@ -167,6 +167,12 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
                     "com.faktocraft.client.model.CoverBakedModel"}),
             Map.entry("FastRecipesConditionContextFix", new String[]{
                     "dev.sixik.fastrecipes.FastRecipeManager"}),
+            Map.entry("FastRecipesPolymorphCompatFix", new String[]{
+                    "dev.sixik.fastrecipes.FastRecipeManager",
+                    "com.illusivesoulworks.polymorph.common.crafting.RecipeSelection"}),
+            Map.entry("TransientCraftingContainerAccessor", new String[]{
+                    "dev.sixik.fastrecipes.FastRecipeManager",
+                    "com.illusivesoulworks.polymorph.common.crafting.RecipeSelection"}),
             Map.entry("FLibPotionEffectRaceFix", new String[]{
                     "com.lothrazar.library.util.EntityUtil"}),
             Map.entry("GuiScaleClickFix", new String[]{

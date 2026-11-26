@@ -25,6 +25,8 @@
     "ExperienceOrbSingleAwardFix",
     "ExperienceOrbValuePersistenceFix",
     "FastRecipesConditionContextFix",
+    "FastRecipesPolymorphCompatFix",
+    "TransientCraftingContainerAccessor",
     "FLibPotionEffectRaceFix",
     "ForgeRegistryAliasSyncFix",
     "HugeMushroomSpeciesMixin",
@@ -58,6 +60,8 @@
   "client": [
     "ApothicAttributeNumberFormatFix",
     "AtlasDownscalingFix",
+    "AtlasDownscalingNativeImageAccessor",
+    "AtlasDownscalingReloadTimingFix",
     "AtmosphereShaderCompileFix",
     "CapsulePreviewCrashFix",
     "ClientPacketListenerLeakFix",

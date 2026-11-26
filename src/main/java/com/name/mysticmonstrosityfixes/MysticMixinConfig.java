@@ -107,7 +107,9 @@ public final class MysticMixinConfig {
                 "ApothicAttributeNumberFormatFix");
         fix("mixin.fixes.atlas_downscaling",
                 "Downscale sprites listed under mixin.fixes.atlas_downscaling_entries before they are stitched into an atlas.",
-                "AtlasDownscalingFix");
+                "AtlasDownscalingFix", "AtlasDownscalingNativeImageAccessor", "AtlasDownscalingReloadTimingFix");
+        option("mixin.fixes.atlas_downscaling_logging", "mixin.fixes.atlas_downscaling_logging", false,
+                "Log sprites downscaled by mixin.fixes.atlas_downscaling to logs/mmf_downscaled_atlas_sprites.txt with their resulting dimensions. Does nothing unless both mixin.fixes.atlas_downscaling and this option are enabled.");
         fix("mixin.fixes.atmosphere_shader_compile",
                 "Rename Let There Be Atmosphere's reserved GLSL word \"packed\" so its sky shaders compile under EmberLens.",
                 "AtmosphereShaderCompileFix");
@@ -135,6 +137,9 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.fastrecipes_condition_context",
                 "Give FastRecipes' recipe manager the server's real recipe condition context so tag-based conditions are not silently dropped.",
                 "FastRecipesConditionContextFix", "RecipeManagerConditionContextAccessor");
+        fix("mixin.fixes.fastrecipes_polymorph_compat",
+                "Route FastRecipes' recipe lookups through Polymorph so block entities and player crafting grids can use the selected recipe and the client receives every matching recipe.",
+                "FastRecipesPolymorphCompatFix", "TransientCraftingContainerAccessor");
         fix("mixin.fixes.flib_potion_effect_race",
                 "Fix a rare FLib potion merge crash when an effect disappears between its check and lookup.",
                 "FLibPotionEffectRaceFix", "MobEffectInstanceAccessor");
