@@ -218,6 +218,9 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.solar_craft_shader_load_crash",
                 "Fix a crash in Solar Craft when loading shaders with zero window dimensions.",
                 "SolarCraftShaderLoadCrashFix");
+        fix("mixin.fixes.vram_debug_line",
+                "Add a VRAM usage line below the heap allocation lines on the F3 debug screen. The line is omitted when no VRAM source works.",
+                "DebugScreenVramLineFix");
 
         option("mixin.experimental", "mixin.experimental.enabled", false,
                 "Master switch for experimental mixins.");
