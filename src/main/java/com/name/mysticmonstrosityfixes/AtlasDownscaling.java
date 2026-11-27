@@ -21,11 +21,15 @@ public final class AtlasDownscaling {
     private static final long MAX_DIVISOR_SHIFT = 40L;
     private static final ThreadLocal<MatchState> MATCH_STATE = ThreadLocal.withInitial(MatchState::new);
 
-    private static volatile List<Rule> rules = List.of();
-    private static volatile List<? extends String> cachedEntries;
-    private static boolean unavailableLogged;
+    private static volatile List<Rule> rules;
 
     private AtlasDownscaling() {
+    }
+
+    public static void invalidateRules() {
+        synchronized (AtlasDownscaling.class) {
+            rules = null;
+        }
     }
 
     public static SpriteContents create(
@@ -84,37 +88,19 @@ public final class AtlasDownscaling {
     }
 
     private static List<Rule> rules() {
-        List<? extends String> entries;
-        try {
-            entries = MysticMixinConfigSpec.ATLAS_DOWNSCALING_ENTRIES.get();
-        } catch (RuntimeException exception) {
-            if (!unavailableLogged) {
-                unavailableLogged = true;
-                LOGGER.warn("Atlas downscaling entries are unavailable; no sprites will be downscaled", exception);
-            }
-            return List.of();
-        }
-        if (entries == cachedEntries) {
-            return rules;
-        }
-        List<? extends String> known = cachedEntries;
-        if (known != null && known.equals(entries)) {
-            cachedEntries = entries;
-            return rules;
+        List<Rule> current = rules;
+        if (current != null) {
+            return current;
         }
         synchronized (AtlasDownscaling.class) {
-            if (entries == cachedEntries || (cachedEntries != null && cachedEntries.equals(entries))) {
-                cachedEntries = entries;
-                return rules;
+            if (rules == null) {
+                rules = parse(AtlasDownscalingEntries.read());
             }
-            List<Rule> parsed = parse(entries);
-            rules = parsed;
-            cachedEntries = entries;
-            return parsed;
+            return rules;
         }
     }
 
-    private static List<Rule> parse(List<? extends String> entries) {
+    private static List<Rule> parse(List<String> entries) {
         List<Rule> parsed = new ArrayList<>(entries.size());
         for (String entry : entries) {
             if (entry == null || entry.isBlank()) {

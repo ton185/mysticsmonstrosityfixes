@@ -116,6 +116,16 @@ public class MysticMonstrosityFixesMixinPlugin implements IMixinConfigPlugin {
             Map.entry("ApothicAttributeNumberFormatFix", new String[]{
                     "dev.shadowsoffire.attributeslib.client.AttributesGui",
                     "dev.shadowsoffire.attributeslib.api.IFormattableAttribute"}),
+            Map.entry("AtlasViewerMipLevelsFix", new String[]{
+                    "xfacthd.atlasviewer.client.screen.AtlasScreen",
+                    "xfacthd.atlasviewer.client.screen.SpriteInfoScreen",
+                    "xfacthd.atlasviewer.client.screen.widget.DiscreteSliderButton"}),
+            Map.entry("AtlasTextureMipAccess", new String[]{
+                    "xfacthd.atlasviewer.client.screen.AtlasScreen"}),
+            Map.entry("AtlasMipUploadCleanupFix", new String[]{
+                    "xfacthd.atlasviewer.client.screen.AtlasScreen"}),
+            Map.entry("SpriteInfoScreenMipExportFix", new String[]{
+                    "xfacthd.atlasviewer.client.screen.SpriteInfoScreen"}),
             Map.entry("AxeSpellContainerFix", new String[]{
                     "com.example.chaotic_world_content.spells.AxeSpellContainerEvents"}),
             Map.entry("BielGGBrokenScriptRecursionFix", new String[]{

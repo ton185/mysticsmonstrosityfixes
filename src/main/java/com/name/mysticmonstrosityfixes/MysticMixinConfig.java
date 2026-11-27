@@ -105,11 +105,14 @@ public final class MysticMixinConfig {
         fix("mixin.fixes.apothic_attribute_number_format",
                 "Format attribute values on Apothic Attributes' attribute screen with locale grouping, M/B/T suffixes below one quadrillion, and scientific notation at or above it.",
                 "ApothicAttributeNumberFormatFix");
-        fix("mixin.fixes.atlas_downscaling",
-                "Downscale sprites listed under mixin.fixes.atlas_downscaling_entries before they are stitched into an atlas.",
+        register("mixin.fixes.atlas_downscaling", "mixin.fixes.atlas_downscaling", true,
+                "Downscale sprites listed in config/mysticmonstrosityfixes_atlas_downscaling_entries.txt (one \"<sprite id regex>=<factor>\" entry per line) before they are stitched into an atlas. Entry file changes apply after a resource reload (F3+T); changing this option requires a game restart.",
                 "AtlasDownscalingFix", "AtlasDownscalingNativeImageAccessor", "AtlasDownscalingReloadTimingFix");
         option("mixin.fixes.atlas_downscaling_logging", "mixin.fixes.atlas_downscaling_logging", false,
                 "Log sprites downscaled by mixin.fixes.atlas_downscaling to logs/mmf_downscaled_atlas_sprites.txt with their resulting dimensions. Does nothing unless both mixin.fixes.atlas_downscaling and this option are enabled.");
+        fix("mixin.fixes.atlasviewer_mip_levels",
+                "Let AtlasViewer's mip sliders go to each sprite's one-pixel mip level, including odd-sized sprites, and generate the missing mip levels on demand, releasing them when the slider returns to 0, the atlas is switched, or the screen is closed.",
+                "AtlasViewerMipLevelsFix", "AtlasTextureMipAccess", "AtlasMipUploadCleanupFix", "SpriteInfoScreenMipExportFix");
         fix("mixin.fixes.atmosphere_shader_compile",
                 "Rename Let There Be Atmosphere's reserved GLSL word \"packed\" so its sky shaders compile under EmberLens.",
                 "AtmosphereShaderCompileFix");
@@ -341,15 +344,21 @@ public final class MysticMixinConfig {
     }
 
     private static void fix(String key, String summary, String... mixinClassNames) {
-        option(key, key, true, summary, mixinClassNames);
+        register(key, key, true, summary + " Changes require a game restart.", mixinClassNames);
     }
 
     private static void option(
             String key, String tomlPath, boolean defaultValue, String summary, String... mixinClassNames
     ) {
+        register(key, tomlPath, defaultValue, summary + " Changes require a game restart.", mixinClassNames);
+    }
+
+    private static void register(
+            String key, String tomlPath, boolean defaultValue, String comment, String... mixinClassNames
+    ) {
         DEFAULTS.put(key, defaultValue);
         TOML_PATHS.put(key, tomlPath);
-        COMMENTS.put(key, summary + " Changes require a game restart.");
+        COMMENTS.put(key, comment);
         for (String mixinClassName : mixinClassNames) {
             MIXIN_KEYS.put(mixinClassName, key);
         }

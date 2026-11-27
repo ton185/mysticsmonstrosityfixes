@@ -2,9 +2,12 @@ package com.name.mysticmonstrosityfixes;
 
 import com.name.mysticmonstrosityfixes.ae2.Ae2CraftingTreeMixinCompat;
 import com.name.mysticmonstrosityfixes.ae2.ExtendedAePlusAcoCompat;
+import com.name.mysticmonstrosityfixes.atlasviewer.AtlasViewerMipScreenEvents;
 import com.name.mysticmonstrosityfixes.itemcollectors.ItemCollectorsInstantPickupFix;
 import com.name.mysticmonstrosityfixes.tweaks.EnchantmentLevelBreakAnvilMixinTweak;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -27,6 +30,10 @@ public class MysticsMonstrosityFixes {
         if (ModList.get().isLoaded("itemcollectors")
                 && MysticMixinConfig.allow("com.name.mysticmonstrosityfixes.mixin.fixes.ItemCollectorBlockEntityMixin")) {
             MinecraftForge.EVENT_BUS.register(ItemCollectorsInstantPickupFix.class);
+        }
+        if (ModList.get().isLoaded("atlasviewer")
+                && MysticMixinConfig.allow("com.name.mysticmonstrosityfixes.mixin.fixes.AtlasViewerMipLevelsFix")) {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MinecraftForge.EVENT_BUS.register(AtlasViewerMipScreenEvents.class));
         }
     }
 

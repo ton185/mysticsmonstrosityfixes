@@ -193,6 +193,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:geckolib-388172:6027567")
     compileOnly fg.deobf("curse.maven:packet-fixer-689467:6017829")
     compileOnly fg.deobf("curse.maven:solar-forge-479100:5255888")
+    compileOnly fg.deobf("curse.maven:atlasviewer-633577:4882554")
     compileOnly fg.deobf("curse.maven:eidolon-repraised-870250:7674316")
     compileOnly fg.deobf("curse.maven:capsule-235338:5032489")
     compileOnly fg.deobf("curse.maven:mariums-soulslike-weaponry-632066:8169896")

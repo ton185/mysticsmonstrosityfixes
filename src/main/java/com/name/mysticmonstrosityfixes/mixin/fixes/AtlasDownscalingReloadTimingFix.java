@@ -1,5 +1,6 @@
 package com.name.mysticmonstrosityfixes.mixin.fixes;
 
+import com.name.mysticmonstrosityfixes.AtlasDownscaling;
 import com.name.mysticmonstrosityfixes.AtlasDownscalingTiming;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -33,6 +34,7 @@ public class AtlasDownscalingReloadTimingFix {
     ) {
         if (type == PackType.CLIENT_RESOURCES) {
             AtlasDownscalingTiming.reset();
+            AtlasDownscaling.invalidateRules();
         }
     }
 
